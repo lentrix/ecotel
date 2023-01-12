@@ -12,7 +12,7 @@
 <body style="background-color: #060b12; background-image: url('/images/background.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed">
 
 
-    <div class="w-[1200px] min-h-screen mx-auto">
+    <div class="w-[1200px] min-h-screen mx-auto pb-[50px]">
 
         <header class=" text-green-200 font-weight-semibold mb-8 mt-4 flex items-center justify-between">
             <div class="flex items-center">

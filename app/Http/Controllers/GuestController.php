@@ -51,7 +51,13 @@ class GuestController extends Controller
     public function show(Guest $guest) {
 
         return view('guests.view',[
-            'guest' => $guest
+            'guest' => $guest,
+            'countries' => Country::pluck('name','nicename')
         ]);
+    }
+
+    public function update(Request $request, Guest $guest) {
+        $guest->update($request->all());
+        return redirect('/guests/' . $guest->id)->with('Info','This guest\'s profile has been updated.');
     }
 }

@@ -36,8 +36,13 @@ Route::middleware(['auth'])->group(function() {
 
     Route::post('/guests/search',[Guestcontroller::class,'index']);
     Route::get('/guests/{guest}',[GuestController::class,'show']);
+    Route::patch('/guests/{guest}',[GuestController::class,'update']);
     Route::post('/guests',[GuestController::class, 'store']);
     Route::get('/guests',[GuestController::class,'index']);
+
+    Route::get('/bookings/create/{guest}',[BookingController::class, 'create']);
+    Route::post('/bookings/create/page2/{guest}',[BookingController::class, 'create2']);
+    Route::post('/bookings/create/page3/{guest}',[BookingController::class, 'create3']);
 
     Route::get('/reports',[ReportController::class,'index']);
 

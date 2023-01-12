@@ -44,6 +44,22 @@
                     <th><i class="fa fa-cog"></i></th>
                 </tr>
             </thead>
+            <tbody>
+                @foreach($guests as $guest)
+
+                <tr>
+                    <td>{{$guest->full_name}}</td>
+                    <td>{{$guest->address}}</td>
+                    <td>{{$guest->country}}</td>
+                    <td class="text-center">
+                        <a href="{{url('/guests/' . $guest->id)}}" class="secondary" title="View guest details">
+                            <i class="fa fa-eye"></i>
+                        </a>
+                    </td>
+                </tr>
+
+                @endforeach
+            </tbody>
         </table>
     </div>
 </div>
