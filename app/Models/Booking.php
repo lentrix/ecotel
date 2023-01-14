@@ -52,4 +52,8 @@ class Booking extends Model
     public static function upComingBookings() {
         return static::where('check_in','>',now())->get();
     }
+
+    public function getTotalPayoutAttribute() {
+        return $this->room_rent + $this->addonTotal;
+    }
 }

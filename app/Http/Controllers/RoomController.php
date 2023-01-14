@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use App\Models\Room;
 use Illuminate\Http\Request;
 
@@ -36,7 +37,7 @@ class RoomController extends Controller
 
         $room->update($request->all());
 
-        return redirect('/rooms')->with('Info',"$room->name room has been updated.");
+        return back()->with('Info',"$room->name room has been updated.");
     }
 
     public function destroy(Request $request) {
@@ -49,5 +50,12 @@ class RoomController extends Controller
 
         return redirect('/rooms')->with('Info',"$name room has been deleted.");
 
+    }
+
+    public function show(Room $room) {
+        return view('rooms.view',[
+            'room'=>$room,
+            'bookings' => Booking::where('room_id',$room->id)->orderBy('check_in','desc')->get()
+        ]);
     }
 }

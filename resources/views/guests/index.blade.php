@@ -33,7 +33,16 @@
     </div>
 
     <div class="bg-[#aabbcc] p-4 rounded-md w-3/4">
-        <h2 class="text-2xl mb-4">{{$remarks}}</h2>
+        <div class="flex justify-between items-center">
+            <h2 class="text-2xl mb-4">{{$remarks}}</h2>
+
+            @if($remarks=="Recent Guests")
+                <div class="text-gray-500 italic">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    Lastest 100 guests only
+                </div>
+            @endif
+        </div>
 
         <table class="table">
             <thead>

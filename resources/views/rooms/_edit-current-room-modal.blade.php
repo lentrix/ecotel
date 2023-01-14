@@ -1,18 +1,18 @@
-<div class="absolute top-0 left-0 h-screen w-screen z-10 bg-gray-900 opacity-90 duration-300 hidden modal-backdrop" id="edit-room-backdrop">
+<div class="absolute top-0 left-0 h-screen w-screen z-10 bg-gray-900 opacity-90 duration-300 hidden modal-backdrop" id="edit-current-room-backdrop">
 </div>
 
-<div class="absolute top-0 left-0 h-screen w-screen z-20 flex items-center justify-center duration-300 hidden modal-wrapper" id="edit-room-wrapper">
+<div class="absolute top-0 left-0 h-screen w-screen z-20 flex items-center justify-center duration-300 hidden modal-wrapper" id="edit-current-room-wrapper">
 
-    <div class="bg-green-100 w-[500px] p-8 rounded-xl relative" id="edit-room-modal">
-        <button class="absolute top-4 right-4 secondary close-modal" data-modal="edit-room">
+    <div class="bg-green-100 w-[500px] p-8 rounded-xl relative" id="edit-current-room-modal">
+        <button class="absolute top-4 right-4 secondary close-modal" data-modal="edit-current-room">
             <i class="fa fa-close"></i>
         </button>
 
         <h2 class="text-2xl text-green-900 pb-2 border-b border-green-900">Edit Room</h2>
 
-        {!! Form::open(['url'=>'/rooms/', 'method'=>'patch']) !!}
+        {!! Form::model($room, ['url'=>'/rooms/', 'method'=>'patch']) !!}
 
-        {!! Form::hidden("id", null,['id'=>'room-id']) !!}
+        {!! Form::hidden("id", $room->id,['id'=>'room-id']) !!}
 
         {!! Form::label("name", "Room Name", ["class"=>'block']) !!}
         {!! Form::text("name", null, ['class'=>'w-full','id'=>'room-name']) !!}

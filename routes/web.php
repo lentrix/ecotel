@@ -52,6 +52,7 @@ Route::middleware(['auth'])->group(function() {
 
     Route::middleware('role:admin')->group(function(){
 
+        Route::get('/rooms/{room}', [RoomController::class, 'show']);
         Route::get('/rooms', [RoomController::class, 'index']);
         Route::post('/rooms', [RoomController::class, 'store']);
         Route::patch('/rooms', [RoomController::class, 'update']);
