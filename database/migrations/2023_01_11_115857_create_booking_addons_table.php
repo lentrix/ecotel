@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('booking_addons', function (Blueprint $table) {
             $table->bigInteger('booking_id')->unsigned();
             $table->bigInteger('addon_id')->unsigned();
+            $table->integer('qty')->unsigned()->default(1);
             $table->decimal('amount',8,2);
             $table->string('remarks')->nullable();
             $table->bigInteger('added_by')->unsigned();

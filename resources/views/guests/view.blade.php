@@ -79,8 +79,26 @@
             <th>Check Out</th>
             <th>Room</th>
             <th>Total Payout</th>
+            <th><i class="fa fa-cog"></i></th>
         </tr>
     </thead>
+    <tbody>
+        @foreach($guest->bookings as $booking)
+
+            <tr>
+                <td>{{$booking->check_in->format('F d, Y')}}</td>
+                <td>{{$booking->check_out->format('F d, Y')}}</td>
+                <td>{{$booking->room->name}}</td>
+                <td class="text-end">{{ number_format( ($booking->room_rent+$booking->addon_total),2)}}</td>
+                <td class="text-center">
+                    <a href="{{url('/bookings/' . $booking->id)}}" class="text-green-600">
+                        <i class="fa fa-eye"></i>
+                    </a>
+                </td>
+            </tr>
+
+        @endforeach
+    </tbody>
 </table>
 
 @endsection

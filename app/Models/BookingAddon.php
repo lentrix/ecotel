@@ -9,13 +9,13 @@ class BookingAddon extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['booking_id','addon_id','amount','remarks','added_by'];
+    protected $fillable = ['booking_id','addon_id','amount','qty','remarks','added_by'];
 
     public function booking() {
         return $this->belongsTo('App\Models\Booking');
     }
 
-    public function addOn() {
+    public function addon() {
         return $this->belongsTo('App\Models\Addon');
     }
 

@@ -18,7 +18,7 @@
 <div class="w-1/2 mx-auto py-4 text-xl text-green-300">
     <div>
         Date Selection >
-        <span class="font-bold text-2xl">Room Selection</span> > Addons Selection
+        <span class="font-bold text-2xl">Room Selection</span> > Finalize Booking
     </div>
 
     <div class="text-green-300 p-4 rounded-md bg-green-900 mt-4">

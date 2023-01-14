@@ -17,7 +17,17 @@ class GuestFactory extends Factory
     public function definition()
     {
         return [
-            //
+            'last_name' => fake()->lastName(),
+            'first_name' => fake()->firstName(),
+            'middle_name' => fake()->lastName(),
+            'address' => fake()->address,
+            'country' => fake()->country,
+            'phone' => fake()->phoneNumber,
+            'email' => fake()->safeEmail,
+            'company' => fake()->company,
+            'company_address' => fake()->address,
+            'company_tin' => fake()->numerify("###-###-###"),
+            'added_by' => 1
         ];
     }
 }

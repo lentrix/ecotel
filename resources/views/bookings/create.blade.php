@@ -12,7 +12,7 @@
 <div class="w-1/2 mx-auto py-4 text-xl text-green-300">
     <div>
         <span class="font-bold text-2xl">Date Selection</span> >
-        Room Selection > Addons Selection
+        Room Selection > Finalize Booking
     </div>
 
     {!! Form::open(['url'=>'/bookings/create/page2/' . $guest->id, 'method'=>'post']) !!}

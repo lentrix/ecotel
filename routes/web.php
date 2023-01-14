@@ -43,6 +43,10 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/bookings/create/{guest}',[BookingController::class, 'create']);
     Route::post('/bookings/create/page2/{guest}',[BookingController::class, 'create2']);
     Route::post('/bookings/create/page3/{guest}',[BookingController::class, 'create3']);
+    Route::post('/bookings/create/finalize',[BookingController::class, 'store']);
+    Route::post('/bookings/add-on/{booking}',[BookingController::class, 'addAddonItem']);
+    Route::delete('/bookings/add-on/{booking}',[BookingController::class, 'removeAddonItem']);
+    Route::get('/bookings/{booking}',[BookingController::class, 'show']);
 
     Route::get('/reports',[ReportController::class,'index']);
 

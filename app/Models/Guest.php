@@ -16,7 +16,7 @@ class Guest extends Model
     }
 
     public function bookings() {
-        return $this->hasMany('App\Models\Booking');
+        return $this->hasMany('App\Models\Booking')->orderBy('check_out','desc');
     }
 
     public function getFullNameAttribute() {

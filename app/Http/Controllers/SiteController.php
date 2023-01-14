@@ -2,13 +2,23 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Addon;
+use App\Models\Booking;
+use App\Models\Guest;
+use App\Models\Room;
 use App\Models\User;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
     public function home() {
-        return view('home');
+        return view('home',[
+            'numberOfGuests' => Guest::count(),
+            'currentBookings' => Booking::currentBookings()->count(),
+            'upComingBookings' => Booking::upComingBookings()->count(),
+            'addOns' => Addon::count(),
+            'rooms' => Room::count()
+        ]);
     }
 
     public function login(Request $request) {
