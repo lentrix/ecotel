@@ -15,6 +15,7 @@
                 <th>Check In</th>
                 <th>Check Out</th>
                 <th>Room</th>
+                <th>Status</th>
                 <th><i class="fa fa-cog"></i></th>
             </tr>
         </thead>
@@ -25,6 +26,9 @@
                     <td>{{$cb->check_in->format('F d, Y')}}</td>
                     <td>{{$cb->check_out->format('F d, Y')}}</td>
                     <td>{{$cb->room->name}}</td>
+                    <td class="capitalize">
+                        {{$cb->status}}
+                    </td>
                     <td class="text-center">
                         <a href="{{url('/bookings/' . $cb->id)}}" class="text-green-600">
                             <i class="fa fa-eye"></i>
@@ -45,6 +49,7 @@
                 <th>Check In</th>
                 <th>Check Out</th>
                 <th>Room</th>
+                <th>Status</th>
                 <th><i class="fa fa-cog"></i></th>
             </tr>
         </thead>
@@ -55,6 +60,7 @@
                     <td>{{$ub->check_in->format('F d, Y')}}</td>
                     <td>{{$ub->check_out->format('F d, Y')}}</td>
                     <td>{{$ub->room->name}}</td>
+                    <td class="capitalize">{{$ub->status}}</td>
                     <td class="text-center">
                         <a href="{{url('/bookings/' . $ub->id)}}" class="text-green-600">
                             <i class="fa fa-eye"></i>

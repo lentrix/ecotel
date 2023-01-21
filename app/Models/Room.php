@@ -9,7 +9,7 @@ class Room extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['name','description','rate','room_type'];
+    protected $fillable = ['name','description','rate','room_type','capacity'];
 
     public function bookings() {
         return $this->hasMany('App\Models\Booking');

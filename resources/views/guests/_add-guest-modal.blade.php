@@ -1,7 +1,7 @@
-<div class="absolute top-0 left-0 min-h-screen w-screen z-10 bg-gray-900 opacity-90 duration-300 hidden modal-backdrop" id="add-guest-backdrop">
+<div class="fixed top-0 left-0 min-h-screen w-screen z-10 bg-gray-900 opacity-90 duration-300 hidden modal-backdrop" id="add-guest-backdrop">
 </div>
 
-<div class="absolute top-0 left-0 min-h-screen w-screen z-20 flex items-center justify-center duration-300 hidden modal-wrapper" id="add-guest-wrapper">
+<div class="fixed top-0 left-0 min-h-screen w-screen z-20 flex items-center justify-center duration-300 hidden modal-wrapper" id="add-guest-wrapper">
 
     <div class="bg-green-100 w-[900px] p-8 rounded-xl relative" id="add-guest-modal">
         <button class="absolute top-4 right-4 secondary close-modal" data-modal="add-guest">

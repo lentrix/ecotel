@@ -5,6 +5,10 @@
 {!! Form::open(['url'=>'/bookings/create/page3/' . $guest->id, 'method'=>'post','id'=>'form']) !!}
     <input type="hidden" name="check_in" id="check_in" value="{{$check_in}}">
     <input type="hidden" name="check_out" id="check_out" value="{{$check_out}}">
+    <input type="hidden" name="source" id="source" value="{{$source}}">
+    <input type="hidden" name="purpose" id="purpose" value="{{$purpose}}">
+    <input type="hidden" name="with_breakfast" id="with_breakfast" value="{{$with_breakfast}}">
+
     <input type="hidden" name="room_id" id="room_id">
 {!! Form::close() !!}
 
@@ -15,17 +19,20 @@
     </div>
 </div>
 
-<div class="w-1/2 mx-auto py-4 text-xl text-green-300">
+<div class="w-7/12 mx-auto py-4 text-xl text-green-300">
     <div>
-        Date Selection >
+        Date &amp; Other Selections >
         <span class="font-bold text-2xl">Room Selection</span> > Finalize Booking
     </div>
 
     <div class="text-green-300 p-4 rounded-md bg-green-900 mt-4">
-        <h2 class="text-2xl mb-6">Date Selection</h2>
+        <h2 class="text-2xl mb-6">Date &amp; Source Selection</h2>
 
         <div><strong>Check In:</strong> {{$check_in->format('F d, Y')}}</div>
         <div><strong>Check Out:</strong> {{$check_out->format('F d, Y')}}</div>
+        <div><strong>Booking Source:</strong> {{$source}}</div>
+        <div><strong>Purpose of underdating:</strong> {{$purpose}}</div>
+        <div><strong>With breakfast:</strong> {{$with_breakfast}}</div>
     </div>
 
     <div class="text-green-900 p-4 rounded-md bg-green-100 mt-4">

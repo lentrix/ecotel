@@ -21,6 +21,7 @@ class RoomController extends Controller
             'description' => 'string|required',
             'room_type' => 'string|required',
             'rate' => 'numeric|required',
+            'capacity' => 'numeric|required',
         ]);
 
         Room::create($fields);

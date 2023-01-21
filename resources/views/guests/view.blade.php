@@ -83,15 +83,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach($guest->bookings as $booking)
+        @foreach($guest->bookingGuests as $bg)
 
             <tr>
-                <td>{{$booking->check_in->format('F d, Y')}}</td>
-                <td>{{$booking->check_out->format('F d, Y')}}</td>
-                <td>{{$booking->room->name}}</td>
-                <td class="text-end">{{ number_format( ($booking->room_rent+$booking->addon_total),2)}}</td>
+                <td>{{$bg->booking->check_in->format('F d, Y')}}</td>
+                <td>{{$bg->booking->check_out->format('F d, Y')}}</td>
+                <td>{{$bg->booking->room->name}}</td>
+                <td class="text-end">{{ number_format( ($bg->booking->room_rent+$bg->booking->addon_total),2)}}</td>
                 <td class="text-center">
-                    <a href="{{url('/bookings/' . $booking->id)}}" class="text-green-600">
+                    <a href="{{url('/bookings/' . $bg->booking->id)}}" class="text-green-600">
                         <i class="fa fa-eye"></i>
                     </a>
                 </td>

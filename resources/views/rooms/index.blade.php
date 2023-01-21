@@ -3,8 +3,6 @@
 @section('content')
 
 @include('rooms._add-room-modal')
-@include('rooms._edit-room-modal')
-@include('rooms._delete-room-modal')
 
 <div class="heading-bar">
     <h1 class="title">Manage Rooms</h1>
@@ -28,28 +26,7 @@
                 <a href="{{url('/rooms/' . $room->id)}}" class="secondary" title="View {{$room->name}}">
                     <i class="fa fa-eye"></i>
                 </a>
-                <button class="secondary edit-room" title="Edit {{$room->name}}"
-                            data-id="{{$room->id}}"
-                            data-name="{{$room->name}}"
-                            data-description="{{$room->description}}"
-                            data-type="{{$room->room_type}}"
-                            data-rate="{{$room->rate}}">
-                    <i class="fa fa-edit"
-                            data-id="{{$room->id}}"
-                            data-name="{{$room->name}}"
-                            data-description="{{$room->description}}"
-                            data-type="{{$room->room_type}}"
-                            data-rate="{{$room->rate}}"></i>
-                </button>
-                <button class="danger delete-room" title="Delete room {{$room->name}}"
-                        data-id="{{$room->id}}"
-                        data-name="{{$room->name}}"
-                        data-description="{{$room->description}}">
-                    <i class="fa fa-trash"
-                            data-id="{{$room->id}}"
-                            data-name="{{$room->name}}"
-                            data-description="{{$room->description}}"></i>
-                </button>
+
             </div>
 
             <a href="{{url('/rooms/' . $room->id)}}" class="secondary" title="View Booking">
@@ -77,30 +54,6 @@ $(document).ready(()=>{
 
     $(".close-modal").click(()=>{
         $(".modal-backdrop, .modal-wrapper").addClass('hidden')
-    })
-
-    $(".edit-room").click((ev)=>{
-        const el = $(ev.target)
-
-        $("#room-id").val(el.data('id'))
-        $("#room-name").val(el.data('name'))
-        $("#room-description").val(el.data('description'))
-        $("#room-type").val(el.data('type')).change()
-        $("#room-rate").val(el.data('rate'))
-
-        $("#edit-room-backdrop, #edit-room-wrapper").removeClass('hidden')
-    })
-
-    $(".delete-room").click((ev)=>{
-        const el = $(ev.target)
-
-        console.log($("#room-name"))
-
-        $("#delete-room-id").val( el.data('id') )
-        $("#show-room-name").text(el.data('name'))
-        $("#show-room-description").text( el.data('description') )
-
-        $("#delete-room-backdrop, #delete-room-wrapper").removeClass('hidden')
     })
 
 })

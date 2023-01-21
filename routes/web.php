@@ -44,7 +44,11 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/bookings/create/page2/{guest}',[BookingController::class, 'create2']);
     Route::post('/bookings/create/page3/{guest}',[BookingController::class, 'create3']);
     Route::post('/bookings/create/finalize',[BookingController::class, 'store']);
+    Route::post('/bookings/add-guest/{booking}',[BookingController::class, 'addGuest']);
+    Route::post('/bookings/remove-guest/{booking}',[BookingController::class, 'removeGuest']);
     Route::post('/bookings/add-on/{booking}',[BookingController::class, 'addAddonItem']);
+    Route::post('/bookings/confirm/{booking}',[BookingController::class, 'confirmBooking']);
+    Route::post('/bookings/cancel/{booking}',[BookingController::class, 'cancelBooking']);
     Route::delete('/bookings/add-on/{booking}',[BookingController::class, 'removeAddonItem']);
     Route::get('/bookings/{booking}',[BookingController::class, 'show']);
 

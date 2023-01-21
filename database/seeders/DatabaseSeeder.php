@@ -19,23 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $users = [
-            [
-                'uname' => 'lentrix',
-                'full_name' => 'Benjie B. Lenteria',
-                'user_type' => 'admin',
-                'password' => 'password123'
-            ],
-            [
-                'uname' => 'mitch',
-                'full_name' => 'Michelle H. Boromeo',
-                'user_type' => 'user',
-                'password' => 'password123'
-            ]
-        ];
-
-        foreach($users as $user) User::create($user);
-
+        $this->run(UserSeeder::class);
         $rooms = [
             [
                 'type'=>'Economy',
@@ -70,9 +54,9 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        Guest::factory(50)->create();
+        // Guest::factory(50)->create();
 
-        Booking::factory(100)->create();
+        // Booking::factory(100)->create();
 
     }
 }

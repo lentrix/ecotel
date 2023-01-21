@@ -30,7 +30,6 @@ class SiteController extends Controller
         $user = User::where('uname', $request->uname)->first();
 
         if(!$user) {
-            dd($request->all(), $user);
             return back()->with('Error','Sorry! User name ' . $request->user . ' is not found.');
         }
 

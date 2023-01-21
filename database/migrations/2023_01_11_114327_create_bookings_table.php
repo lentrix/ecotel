@@ -15,15 +15,19 @@ return new class extends Migration
     {
         Schema::create('bookings', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('guest_id')->unsigned();
             $table->dateTime('check_in');
             $table->dateTime('check_out');
             $table->bigInteger('room_id')->unsigned();
             $table->decimal('room_rate',8,2);
             $table->bigInteger('added_by')->unsigned();
+            $table->string('status')->default('pending'); //pending (no deposit yet), confirmed (with deposit)
+            $table->decimal('down_payment',8,2)->default(0);
+            $table->string("payment_mode")->nullable();
+            $table->string("source")->default('Walk-in');
+            $table->boolean('with_breakfast')->default(0);
+            $table->string('purpose');
             $table->timestamps();
             $table->foreign('added_by')->references('id')->on('users');
-            $table->foreign('guest_id')->references('id')->on('guests');
             $table->foreign('room_id')->references('id')->on('rooms');
         });
     }

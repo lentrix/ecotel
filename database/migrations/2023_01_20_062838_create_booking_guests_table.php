@@ -13,14 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('rooms', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->string('description')->nullable();
-            $table->string('room_type');
-            $table->decimal('rate',8,2);
-            $table->integer('capacity')->unsigned()->default(1);
+        Schema::create('booking_guests', function (Blueprint $table) {
+            $table->bigInteger('guest_id')->unsigned();
+            $table->bigInteger('booking_id')->unsigned();
             $table->timestamps();
+            $table->foreign('guest_id')->references('id')->on('guests');
+            $table->foreign('booking_id')->references('id')->on('bookings');
+            $table->primary(['guest_id','booking_id']);
         });
     }
 
@@ -31,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('rooms');
+        Schema::dropIfExists('booking_guests');
     }
 };

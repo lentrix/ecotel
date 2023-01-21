@@ -15,10 +15,20 @@ class Booking extends Model
         'check_out' => 'datetime',
     ];
 
-    protected $fillable = ['guest_id','check_in','check_out','room_id','room_rate','added_by'];
+    protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast','purpose'];
 
-    public function guest() {
-        return $this->belongsTo('App\Models\Guest');
+    public function getGuestAttribute() {
+        return BookingGuest::where('booking_id', $this->id)
+                ->orderBy('created_at')
+                ->first()->guest;
+    }
+
+    public function getIsCancelledAttribute() {
+        return substr($this->status,0,9)=="Cancelled";
+    }
+
+    public function bookingGuests() {
+        return $this->hasMany('App\Models\BookingGuest');
     }
 
     public function room() {
@@ -55,5 +65,12 @@ class Booking extends Model
 
     public function getTotalPayoutAttribute() {
         return $this->room_rent + $this->addonTotal;
+    }
+
+    public function guestIsInBooking($guestId) {
+        $gb = BookingGuest::where('guest_id', $guestId)
+            ->where('booking_id', $this->id)->first();
+
+        return $gb;
     }
 }

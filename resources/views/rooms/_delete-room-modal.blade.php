@@ -23,7 +23,7 @@
         <div class="flex justify-between">
             {!! Form::open(['url'=>'/rooms/', 'method'=>'delete']) !!}
 
-                {!! Form::hidden("id", null,['id'=>'delete-room-id']) !!}
+                {!! Form::hidden("id", $room->id,['id'=>'delete-room-id']) !!}
 
                 <button type="submit" class="danger">
                     <i class="fa fa-trash"></i> Delete

@@ -24,6 +24,9 @@
         {!! Form::label("rate", "Room Rate", ['class'=>'block']) !!}
         {!! Form::number("rate", null, ['class'=>'w-full','step'=>'.01']) !!}
 
+        {!! Form::label("capacity", "Capacity", ['class'=>'block']) !!}
+        {!! Form::number("capacity", null, ['class'=>'w-full','min'=>'1']) !!}
+
         <button type="submit" class="primary">
             <i class="fa fa-check"></i> Submit
         </button>

@@ -61,7 +61,9 @@
                     <td>{{$guest->address}}</td>
                     <td>{{$guest->country}}</td>
                     <td class="text-center">
-                        <a href="{{url('/guests/' . $guest->id)}}" class="secondary" title="View guest details">
+                        <a href="{{url('/guests/' . $guest->id)}}"
+                                    title="View guest details"
+                                    class="text-lg">
                             <i class="fa fa-eye"></i>
                         </a>
                     </td>

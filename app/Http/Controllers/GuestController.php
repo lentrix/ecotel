@@ -12,8 +12,8 @@ class GuestController extends Controller
 
         if(!$request->last_name && !$request->first_name){
             $remarks = "Recent Guests";
-            $guests = Guest::leftJoin('bookings','bookings.guest_id','guests.id')
-                ->orderBy('bookings.created_at','desc')
+            $guests = Guest::leftJoin('booking_guests','booking_guests.guest_id','guests.id')
+                ->orderBy('booking_guests.created_at','desc')
                 ->select('guests.*')
                 ->limit(50);
         }else {
