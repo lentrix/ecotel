@@ -26,6 +26,8 @@ return new class extends Migration
             $table->string("source")->default('Walk-in');
             $table->boolean('with_breakfast')->default(0);
             $table->string('purpose');
+            $table->string('discount_remarks')->nullable();
+            $table->decimal('discount_amount', 8,2)->nullable();
             $table->timestamps();
             $table->foreign('added_by')->references('id')->on('users');
             $table->foreign('room_id')->references('id')->on('rooms');

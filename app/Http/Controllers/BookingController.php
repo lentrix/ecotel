@@ -10,6 +10,7 @@ use App\Models\Guest;
 use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
 
 class BookingController extends Controller
 {
@@ -183,5 +184,46 @@ class BookingController extends Controller
         $booking->save();
 
         return back()->with('Info','This booking has been cancelled');
+    }
+
+    public function guestRecords(Booking $booking) {
+
+        $pdf = Pdf::loadView('bookings.guest-records',[
+            'booking' => $booking
+        ]);
+
+        if($booking->bookingGuests->count()>=5) {
+            $pdf->setPaper('legal','portrait');
+        }
+
+        return $pdf->stream();
+
+        // return view('bookings.guest-records',[
+        //     'booking' => $booking
+        // ]);
+    }
+
+    public function billingDetails(Booking $booking) {
+
+        $pdf = Pdf::loadView('bookings.billing-details',[
+            'booking' => $booking
+        ]);
+
+        return $pdf->stream();
+    }
+
+    public function updateDiscount(Booking $booking, Request $request) {
+
+        if($request->discount_remarks) {
+            $booking->discount_remarks = $request->discount_remarks;
+            $booking->discount_amount = $request->discount_amount;
+        }else{
+            $booking->discount_remarks = null;
+            $booking->discount_amount = null;
+        }
+
+        $booking->save();
+
+        return back()->with('Info','The discount of this booking has been updated.');
     }
 }

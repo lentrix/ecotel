@@ -27,6 +27,10 @@ class Booking extends Model
         return substr($this->status,0,9)=="Cancelled";
     }
 
+    public function getIsConfirmedAttribute() {
+        return strchr(substr($this->status,0,9), "Confirmed") == 0;
+    }
+
     public function bookingGuests() {
         return $this->hasMany('App\Models\BookingGuest');
     }
@@ -54,17 +58,35 @@ class Booking extends Model
         return $this->bookingAddons->sum('amount');
     }
 
+    public function getGrossTotalAttribute() {
+        return $this->room_rent + $this->addonTotal;
+    }
+
+    public function getVatAmountAttribute() {
+        $gross = $this->grossTotal;
+
+        $vatAmt = $gross - ($gross*(100/(112)));
+
+        return $vatAmt;
+    }
+
     public static function currentBookings() {
-        return static::where('check_in','<=',now())
-            ->where('check_out','>=',now())->get();
+        $now = Carbon::parse( date('Y-m-d') );
+        $now->addMinutes(721);
+
+        return static::where('check_in','<=',$now)
+            ->where('check_out','>=',$now)->get();
     }
 
     public static function upComingBookings() {
-        return static::where('check_in','>',now())->get();
+        $now = Carbon::parse( date('Y-m-d') );
+        $now->addMinutes(721);
+
+        return static::where('check_in','>',$now)->get();
     }
 
     public function getTotalPayoutAttribute() {
-        return $this->room_rent + $this->addonTotal;
+        return ($this->room_rent + $this->addonTotal) - ($this->down_payment + $this->discount_amount);
     }
 
     public function guestIsInBooking($guestId) {

@@ -2,6 +2,30 @@
 @tailwind components;
 @tailwind utilities;
 
+@media print {
+    * {
+        color: #111;
+    }
+
+    h1.title {
+        color: black;
+    }
+
+    .no-print {
+        display: none;
+    }
+
+    table, .heading-bar {
+        max-width: 1100px;
+        border-collapse: collapse;
+    }
+
+    td, th {
+        border: 1px solid #555;
+        padding: 2px;
+    }
+}
+
 button.primary, a.primary {
     @apply px-3 py-2 bg-green-700 text-white rounded-md hover:bg-green-500 duration-300
 }

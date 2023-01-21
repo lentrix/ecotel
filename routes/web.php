@@ -50,9 +50,13 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/bookings/confirm/{booking}',[BookingController::class, 'confirmBooking']);
     Route::post('/bookings/cancel/{booking}',[BookingController::class, 'cancelBooking']);
     Route::delete('/bookings/add-on/{booking}',[BookingController::class, 'removeAddonItem']);
+    Route::get('/bookings/guest-records/{booking}',[BookingController::class, 'guestRecords']);
+    Route::get('/bookings/billing-details/{booking}',[BookingController::class, 'billingDetails']);
+    Route::patch('/bookings/{booking}',[BookingController::class, 'updateDiscount']);
     Route::get('/bookings/{booking}',[BookingController::class, 'show']);
 
     Route::get('/reports',[ReportController::class,'index']);
+    Route::get('/reports/daily-summary', [ReportController::class, 'dailySummary']);
 
     Route::middleware('role:admin')->group(function(){
 

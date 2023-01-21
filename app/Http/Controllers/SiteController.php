@@ -17,7 +17,7 @@ class SiteController extends Controller
             'currentBookings' => Booking::currentBookings()->count(),
             'upComingBookings' => Booking::upComingBookings()->count(),
             'addOns' => Addon::count(),
-            'rooms' => Room::count()
+            'rooms' => Room::count(),
         ]);
     }
 

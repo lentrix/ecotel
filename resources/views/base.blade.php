@@ -22,7 +22,7 @@
             </div>
 
             @if(!auth()->guest())
-                <nav class="text-lg space-x">
+                <nav class="text-lg space-x no-print">
                     <a href="{{url('/home')}}" class="main-nav">Home</a>
                     <a href="{{url('/bookings')}}" class="main-nav">Bookings</a>
                     <a href="{{url('guests')}}" class="main-nav">Guests</a>
@@ -47,7 +47,7 @@
 
     </div>
 
-    <footer class="text-center text-[#6f906c] mt-[-50px]">
+    <footer class="text-center text-[#6f906c] mt-[-50px] no-print">
         Copyright &copy; 2023 Bohol Ecotel, Inc. All rights reserved
     </footer>
 

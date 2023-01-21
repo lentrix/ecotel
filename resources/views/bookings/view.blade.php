@@ -7,6 +7,7 @@
 @include('bookings._delete-guest-modal')
 @include('bookings._cancel-booking-modal')
 @include('bookings._confirm-booking-modal')
+@include('bookings._edit-discount-modal')
 
 
 {!! Form::open(['url'=>'/bookings/add-guest/' . $booking->id,'method'=>'post', 'id'=>"add-guest-form"]) !!}
@@ -15,6 +16,14 @@
 
 <div class="heading-bar">
     <h1 class="title">View Booking {{$booking->id}}</h1>
+    <div class="flex space-x-2">
+        <a href="{{url('/bookings/guest-records/' . $booking->id)}}" class="primary" target="_blank">
+            Guest Records
+        </a>
+        <a href="{{url('/bookings/billing-details/' . $booking->id)}}" class="primary" target="_blank">
+            Billing Details
+        </a>
+    </div>
 </div>
 
 <div class="flex space-x-4 mt-4">
@@ -26,20 +35,27 @@
         <table class="table">
 
             <tr>
-                <th class="bg-green-900 text-green-200 w-[160px]">Status</th>
+                <th class="bg-green-900 text-green-200 w-[180px]">Status</th>
                 <td class="bg-white">
-                    <div class="flex justify-between">
-                        <div class="text-xl font-bold capitalize">{{$booking->status}}</div>
+                    <div class="text-xl font-bold capitalize">{{$booking->status}}</div>
+                </td>
+            </tr>
+
+            @if($booking->down_payment>0)
+            <tr>
+                <th class="bg-green-900 text-green-200 w-[160px]">Down Payment</th>
+                <td class="bg-white">
+                    <div class="text-xl font-bold capitalize">
+                        <i class="fa-solid fa-peso-sign"></i>
+                        {{$booking->down_payment}}
                     </div>
                 </td>
             </tr>
+            @endif
+
             <tr>
-                <th class="bg-green-900 text-green-200 w-[130px]">Check In</th>
-                <td class="bg-white">{{$booking->check_in->format('F d, Y')}}</td>
-            </tr>
-            <tr>
-                <th class="bg-green-900 text-green-200">Check Out</th>
-                <td class="bg-white">{{$booking->check_out->format('F d, Y')}}</td>
+                <th class="bg-green-900 text-green-200 w-[130px]">Duration</th>
+                <td class="bg-white">{{$booking->check_in->format('F d, Y')}} - {{$booking->check_out->format('F d, Y')}}</td>
             </tr>
             <tr>
                 <th class="bg-green-900 text-green-200">Booking Source</th>
@@ -49,7 +65,6 @@
                 <th class="bg-green-900 text-green-200">Room</th>
                 <td class="bg-white">
                     <div class='font-bold'>{{$booking->room->name}}</div>
-                    <div class="italic">{{$booking->room->description}}</div>
                 </td>
             </tr>
             <tr>
@@ -84,12 +99,34 @@
                     </div>
                 </td>
             </tr>
+
+            <tr>
+                <th class="bg-green-900 text-green-200">Discount</th>
+                <td class="bg-white">
+                    <div class="flex justify-between">
+                        <div>
+                            <div class="font-bold">
+                                <i class="fa-solid fa-peso-sign"></i> {{ number_format($booking->discount_amount,2) }}
+                            </div>
+                            <div class='italic'>
+                                {{$booking->discount_remarks}}
+                            </div>
+                        </div>
+                        <button class="text-xl hover:text-gray-500 text-gray-700" id="edit-discount-button">
+                            <i class="fa fa-edit" title="Edit Discount"></i>
+                        </button>
+                    </div>
+
+
+                </td>
+            </tr>
+
             <tr class="text-2xl">
-                <th class="bg-green-900 text-green-200">TOTAL</th>
+                <th class="bg-green-900 text-green-200">TOTAL DUE</th>
                 <td class="bg-white">
                     <div class='font-bold'>
                         <i class="fa-solid fa-peso-sign"></i>
-                        {{number_format( ($booking->addonTotal + $booking->room_rent),2)}}
+                        {{number_format( $booking->total_payout,2)}}
                     </div>
                 </td>
             </tr>
@@ -224,6 +261,10 @@ $(document).ready(()=>{
 
     $("#confirm-booking-button").click(()=>{
         $("#confirm-booking-backdrop, #confirm-booking-wrapper").removeClass('hidden')
+    })
+
+    $("#edit-discount-button").click(()=>{
+        $("#edit-discount-backdrop, #edit-discount-wrapper").removeClass('hidden')
     })
 
     $(".close-modal").click(()=>{
