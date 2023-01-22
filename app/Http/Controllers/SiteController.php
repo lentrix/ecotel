@@ -4,20 +4,51 @@ namespace App\Http\Controllers;
 
 use App\Models\Addon;
 use App\Models\Booking;
+use App\Models\BookingGuest;
 use App\Models\Guest;
 use App\Models\Room;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class SiteController extends Controller
 {
     public function home() {
+
+        $now = Carbon::parse( date('Y-m-d') );
+        $now->addMinutes(721);
+
+        $rooms = Room::count();
+        $current = Booking::currentBookings()->count();
+        $occupancy = number_format(($current/$rooms)*100) . "%";
+
+        $checkInToday = Booking::whereDate('check_in', date('Y-m-d'))->count();
+        $checkOutToday = Booking::whereDate('check_out', date('Y-m-d'))->count();
+
+        $occupiedRooms = Room::whereHas('bookings', function($q1) use($now) {
+            $q1->where('check_in','<=',$now)
+            ->where('check_out','>',$now)
+            ->where('status','like','Confirmed%');
+        })->count();
+
+        $currentGuests = BookingGuest::whereHas('booking', function($q) use($now) {
+            $q->where('check_in','<=',$now)
+                ->where('check_out','>',$now)
+                ->where('status','like','Confirmed%');
+        })->count();
+
+
         return view('home',[
             'numberOfGuests' => Guest::count(),
-            'currentBookings' => Booking::currentBookings()->count(),
+            'currentBookings' => $current,
             'upComingBookings' => Booking::upComingBookings()->count(),
             'addOns' => Addon::count(),
-            'rooms' => Room::count(),
+            'rooms' => $rooms,
+            'occupiedRooms' => $occupiedRooms,
+            'occupancy' => $occupancy,
+            'currentGuests' => $currentGuests,
+            'checkInToday' => $checkInToday,
+            'checkOutToday' => $checkOutToday,
         ]);
     }
 
