@@ -26,35 +26,33 @@
                     {!! Form::text("middle_name", null, ['class'=>'w-full']) !!}
 
                     {!! Form::label("address", "Address", ["class"=>'block']) !!}
-                    {!! Form::textarea("address", null, ['class'=>'w-full border border-green-500 p-2 rounded','rows'=>'4']) !!}
+                    {!! Form::textarea("address", null, ['class'=>'w-full border border-green-500 p-2 rounded','rows'=>'3']) !!}
 
-                    {!! Form::label("idno", "Passport No/ID No.:", ["class"=>'block']) !!}
-                    {!! Form::text("idno", null, ['class'=>'w-full','placeholder'=>'Select a country']) !!}
+                    {!! Form::label("email", "Email", ["class"=>'block']) !!}
+                    {!! Form::email("email", null, ['class'=>'w-full']) !!}
 
-                    <div class="mt-4">
-                        {!! Form::radio("ofw", 1, null,['id'=>'ofw']) !!}
-                        {!! Form::label("ofw", 'O.F.W.') !!} &nbsp;
-
-                        {!! Form::radio("ofw", 0, 1,['id'=>'nonofw']) !!}
-                        {!! Form::label("nonofw", 'Not O.F.W.') !!} &nbsp;
+                    <div class="mb-2">
+                        {!! Form::checkbox("ofw", null, null,['id'=>'ofw']) !!}
+                        {!! Form::label("ofw", 'O.F.W.?') !!}
                     </div>
                 </div>
 
                 <div class="w-1/2">
+                    {!! Form::label("idno", "Passport No/ID No.:", ["class"=>'block']) !!}
+                    {!! Form::text("idno", null, ['class'=>'w-full','placeholder'=>'Select a country']) !!}
+
                     {!! Form::label("country", "Country", ["class"=>'block']) !!}
-                    {!! Form::select("country", $countries, null, ['class'=>'w-full border border-green-500 p-2 rounded bg-white','placeholder'=>'Select a country']) !!}
+                    {!! Form::select("country", $countries, null, ['class'=>'w-full border border-green-500 p-2 rounded bg-white mb-5','placeholder'=>'Select a country']) !!}
 
                     {!! Form::label("phone", "Phone", ["class"=>'block']) !!}
                     {!! Form::text("phone", null, ['class'=>'w-full']) !!}
 
-                    {!! Form::label("email", "Email", ["class"=>'block']) !!}
-                    {!! Form::email("email", null, ['class'=>'w-full']) !!}
 
                     {!! Form::label("company", "Company Name", ["class"=>'block']) !!}
                     {!! Form::text("company", null, ['class'=>'w-full']) !!}
 
                     {!! Form::label("company_address", "Company Address", ["class"=>'block']) !!}
-                    {!! Form::textarea("company_address", null, ['class'=>'w-full border border-green-500 p-2 rounded','rows'=>'4']) !!}
+                    {!! Form::textarea("company_address", null, ['class'=>'w-full border border-green-500 p-2 rounded','rows'=>'2']) !!}
 
                     {!! Form::label("company_tin", "Company TIN", ["class"=>'block']) !!}
                     {!! Form::text("company_tin", null, ['class'=>'w-full']) !!}
