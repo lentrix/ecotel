@@ -75,7 +75,7 @@ class Booking extends Model
         $now->addMinutes(721);
 
         return static::where('check_in','<=',$now)
-            ->where('check_out','>=',$now)->get();
+            ->where('check_out','>',$now)->get();
     }
 
     public static function upComingBookings() {

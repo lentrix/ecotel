@@ -14,4 +14,11 @@ class Room extends Model
     public function bookings() {
         return $this->hasMany('App\Models\Booking');
     }
+
+    public static function dailyTotal($date) {
+        return Room::whereHas('bookings', function($q1) use ($date){
+            $q1->where('check_in', '<=', $date . ' 12:01')
+                ->where('check_out','>', $date . ' 12:00');
+        })->sum('rate');
+    }
 }

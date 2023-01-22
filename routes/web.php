@@ -57,6 +57,8 @@ Route::middleware(['auth'])->group(function() {
 
     Route::get('/reports',[ReportController::class,'index']);
     Route::get('/reports/daily-summary', [ReportController::class, 'dailySummary']);
+    Route::get('/reports/daily-income', [ReportController::class, 'dailyIncome']);
+    Route::get('/reports/periodic-report', [ReportController::class, 'periodicIncome']);
 
     Route::middleware('role:admin')->group(function(){
 
