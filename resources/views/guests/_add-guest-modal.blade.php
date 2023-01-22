@@ -39,7 +39,7 @@
 
                 <div class="w-1/2">
                     {!! Form::label("idno", "Passport No/ID No.:", ["class"=>'block']) !!}
-                    {!! Form::text("idno", null, ['class'=>'w-full','placeholder'=>'Select a country']) !!}
+                    {!! Form::text("idno", null, ['class'=>'w-full']) !!}
 
                     {!! Form::label("country", "Country", ["class"=>'block']) !!}
                     {!! Form::select("country", $countries, null, ['class'=>'w-full border border-green-500 p-2 rounded bg-white mb-5','placeholder'=>'Select a country']) !!}
