@@ -45,7 +45,7 @@ class ReportController extends Controller
             })->whereHas('booking', function($q2){
                 $q2->where('status','like','Confirmed%');
             })
-            ->orderBy('created_at')->groupBy('addon_id')
+            ->groupBy('addon_id')
             ->select(DB::raw('addon_id, SUM(qty) AS qty_sum, SUM(amount) AS amount_sum'))
             ->get();
 
