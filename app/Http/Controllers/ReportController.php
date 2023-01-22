@@ -16,6 +16,7 @@ class ReportController extends Controller
     public function index() {
 
         $addonTypes = config('ecotel.addon_types');
+        $addonTypes['Room'] = 'Room';
 
         return view('reports.index',[
             'addonTypes' => $addonTypes
@@ -39,20 +40,35 @@ class ReportController extends Controller
 
     public function dailyIncome(Request $request) {
 
-        $bookingAddons = BookingAddon::whereBetween('created_at',[$request->date . ' 00:00', $request->date . " 23:59:59"])
-            ->whereHas('addon', function($q1) use ($request){
-                $q1->where('addon_type', $request->addon_type);
-            })->whereHas('booking', function($q2){
-                $q2->where('status','like','Confirmed%');
-            })
-            ->groupBy('addon_id')
-            ->select(DB::raw('addon_id, SUM(qty) AS qty_sum, SUM(amount) AS amount_sum'))
-            ->get();
+        if($request->addon_type=="Room") {
 
+            $now = Carbon::parse($request->date);
+            $now->addMinutes(721);
+
+            $data = Booking::where('check_in','<=',$now)
+                    ->where('check_out','>',$now)
+                    ->where('status','like','Confirmed%')
+                    ->join('rooms','room_id','rooms.id')
+                    ->select(DB::raw('rooms.name AS "name", "1" AS "qty_sum", bookings.room_rate AS "amount_sum"'))
+                    ->get();
+
+        }else {
+
+            $data = BookingAddon::whereBetween('booking_addons.created_at',[$request->date . ' 00:00', $request->date . " 23:59:59"])
+                ->whereHas('addon', function($q1) use ($request){
+                    $q1->where('addon_type', $request->addon_type);
+                })->whereHas('booking', function($q2){
+                    $q2->where('status','like','Confirmed%');
+                })
+                ->join('addons','addon_id','addons.id')
+                ->groupBy('addons.name')
+                ->select(DB::raw('addons.name AS "name", SUM(qty) AS qty_sum, SUM(booking_addons.amount) AS amount_sum'))
+                ->get();
+        }
 
         $pdf = Pdf::loadView('/reports/daily-income',[
             'addon_type' => $request->addon_type,
-            'bookingAddons' => $bookingAddons,
+            'data' => $data,
             'date' => Carbon::parse($request->date)
         ]);
 

@@ -29,9 +29,9 @@
     </thead>
     <tbody>
         <?php $total = 0; $qty=0;?>
-        @foreach($bookingAddons as $item)
+        @foreach($data as $item)
             <tr>
-                <td>{{$item->addon->name}}</td>
+                <td>{{$item->name}}</td>
                 <td style="text-align:center">{{$item->qty_sum}}</td>
                 <td style="text-align:right">{{number_format($item->amount_sum,2)}}</td>
             </tr>

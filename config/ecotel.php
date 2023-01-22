@@ -26,9 +26,9 @@ return [
         'Via Booking.com' => 'Via Booking.com',
     ],
     'payment_modes' => [
+        'Cash'=>'Cash',
         'Credit/Debit Card' => 'Credit/Debit Card',
         'GCash'=>'GCash',
-        'Maya'=>'Maya',
         'Bank Transfer'=>'Bank Transfer',
         'Paypal'=>'Paypal',
     ]
