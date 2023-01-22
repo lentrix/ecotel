@@ -42,7 +42,7 @@
     <tr>
         <td>
             Addons: <br>
-            <ul>
+            <ul style="margin:0">
                 @foreach($booking->bookingAddons as $bka)
                 <li>
                     {{ $bka->addon->name }} {{ $bka->qty }}&#64;{{ $bka->amount }}
@@ -53,7 +53,7 @@
         </td>
         <td style="text-align: right">
             <br>
-            <ul style="padding-right: 50px; list-style: none">
+            <ul style="padding-right: 80px; list-style: none; margin:0">
                 @foreach($booking->bookingAddons as $bka)
                 <li style="text-align: right;">
                     {{ number_format($bka->amount*$bka->qty,2) }}

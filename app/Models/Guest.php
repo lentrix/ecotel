@@ -9,7 +9,7 @@ class Guest extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['last_name','first_name','middle_name','address','country','phone','email','company','company_address','company_tin','added_by'];
+    protected $fillable = ['last_name','first_name','middle_name','address','idno', 'country','phone','email','company','company_address','company_tin','added_by','ofw'];
 
     public function addedBy() {
         return $this->belongsTo('App\Models\User');

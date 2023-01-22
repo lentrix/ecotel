@@ -28,11 +28,19 @@
                     {!! Form::label("address", "Address", ["class"=>'block']) !!}
                     {!! Form::textarea("address", null, ['class'=>'w-full border border-green-500 p-2 rounded','rows'=>'4']) !!}
 
-                    {!! Form::label("country", "Country", ["class"=>'block']) !!}
-                    {!! Form::select("country", $countries, null, ['class'=>'w-full border border-green-500 p-2 rounded bg-white','placeholder'=>'Select a country']) !!}
+                    {!! Form::label("idno", "Passport No/ID No.:", ["class"=>'block']) !!}
+                    {!! Form::text("idno", null, ['class'=>'w-full','placeholder'=>'Select a country']) !!}
+
+                    <div class="mt-4">
+                        {!! Form::checkbox("ofw", null, null,['id'=>'ofw']) !!}
+                        {!! Form::label("ofw", 'O.F.W.?') !!}
+                    </div>
                 </div>
 
                 <div class="w-1/2">
+                    {!! Form::label("country", "Country", ["class"=>'block']) !!}
+                    {!! Form::select("country", $countries, null, ['class'=>'w-full border border-green-500 p-2 rounded bg-white','placeholder'=>'Select a country']) !!}
+
                     {!! Form::label("phone", "Phone", ["class"=>'block']) !!}
                     {!! Form::text("phone", null, ['class'=>'w-full']) !!}
 

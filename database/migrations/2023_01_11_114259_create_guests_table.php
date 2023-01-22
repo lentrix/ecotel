@@ -21,10 +21,12 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->string('country')->nullable();
             $table->string('phone')->nullable();
+            $table->string('idno')->nullable();
             $table->string('email')->nullable();
             $table->string('company')->nullable();
             $table->string('company_address')->nullable();
             $table->string('company_tin')->nullable();
+            $table->boolean('ofw')->default(0);
             $table->bigInteger('added_by')->unsigned();
             $table->timestamps();
             $table->foreign('added_by')->references('id')->on('users');

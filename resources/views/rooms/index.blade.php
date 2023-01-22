@@ -28,10 +28,11 @@
                 </a>
 
             </div>
-
-            <a href="{{url('/rooms/' . $room->id)}}" class="secondary" title="View Booking">
-                <i class="fa-solid fa-person"></i> Occupied
-            </a>
+            @if($occ = $room->currentOccupancy)
+                <a href="{{url('/bookings/' . $occ->id)}}" class="secondary" title="View Booking">
+                    <i class="fa-solid fa-person"></i> Occupied
+                </a>
+            @endif
         </div>
     </div>
 

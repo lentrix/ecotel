@@ -18,9 +18,10 @@ class Booking extends Model
     protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast','purpose'];
 
     public function getGuestAttribute() {
-        return BookingGuest::where('booking_id', $this->id)
+        $bookingGuest = BookingGuest::where('booking_id', $this->id)
                 ->orderBy('created_at')
-                ->first()->guest;
+                ->first();
+        return $bookingGuest ? $bookingGuest->guest : new Guest(['last_name'=>"none",'first_name'=>'none']);
     }
 
     public function getIsCancelledAttribute() {

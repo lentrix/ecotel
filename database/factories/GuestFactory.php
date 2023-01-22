@@ -23,6 +23,7 @@ class GuestFactory extends Factory
             'address' => fake()->address,
             'country' => fake()->country,
             'phone' => fake()->phoneNumber,
+            'idno' => fake()->numerify("#-####-###"),
             'email' => fake()->safeEmail,
             'company' => fake()->company,
             'company_address' => fake()->address,

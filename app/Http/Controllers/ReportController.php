@@ -42,6 +42,8 @@ class ReportController extends Controller
         $bookingAddons = BookingAddon::whereBetween('created_at',[$request->date . ' 00:00', $request->date . " 23:59:59"])
             ->whereHas('addon', function($q1) use ($request){
                 $q1->where('addon_type', $request->addon_type);
+            })->whereHas('booking', function($q2){
+                $q2->where('status','like','Confirmed%');
             })
             ->orderBy('created_at')->groupBy('addon_id')
             ->select(DB::raw('addon_id, SUM(qty) AS qty_sum, SUM(amount) AS amount_sum'))

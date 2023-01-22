@@ -42,6 +42,14 @@
                 <th class="bg-green-800 text-green-100">Email</th>
                 <td>{{$guest->email}}</td>
             </tr>
+            <tr>
+                <th class="bg-green-800 text-green-100">Passport No/ID No.:</th>
+                <td>{{$guest->idno}}</td>
+            </tr>
+            <tr>
+                <th class="bg-green-800 text-green-100">OFW</th>
+                <td>{{$guest->ofw ? "Yes" : "No"}}</td>
+            </tr>
         </table>
     </div>
 

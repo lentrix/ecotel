@@ -14,6 +14,8 @@ class Addon extends Model
     public static function dailyTotal($date, $type) {
         return BookingAddon::whereHas('addon', function($q1) use ($type) {
             $q1->where('addon_type', $type);
+        })->whereHas('booking', function($q2) {
+            $q2->where('status','like','Confirmed%');
         })
         ->whereBetween('created_at',[$date . ' 00:00', $date . " 23:59:59"])
         ->sum('amount');

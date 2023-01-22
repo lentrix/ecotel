@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Addon;
+use App\Models\Booking;
 use App\Models\Room;
 use Illuminate\Console\Command;
 
@@ -29,13 +30,12 @@ class TestCommand extends Command
      */
     public function handle()
     {
-        $date = '2023-01-21';
-        echo "Date: " . $date . "\n";
-        echo "Room: " . Room::dailyTotal($date) . "\n";
-        echo "Food: " . Addon::dailyTotal($date, 'Food') . "\n";
-        echo "Beverage: " . Addon::dailyTotal($date, 'Beverage') . "\n";
-        echo "Amenity: " . Addon::dailyTotal($date, 'Amenity') . "\n";
-        echo "Surcharge: " . Addon::dailyTotal($date, 'surcharges') . "\n";
+        $date = Date('Y-m-d');
+
+        $room = Booking::where('check_in','<=', $date . ' 12:00')
+        ->where('check_out','>', $date . ' 12:01')->get();
+
+        dd($room);
 
         return Command::SUCCESS;
     }

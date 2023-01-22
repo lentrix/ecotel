@@ -40,8 +40,8 @@
         <b>Email Address:</b> <u>{{$bg->guest->email}}</u> &nbsp;&nbsp;
     </div>
     <div>
-        <b>Passport/ID No.:</b> <u>Temp: 812818181</u> &nbsp;&nbsp;
-        <b>OFW?:</b> <u>Temp: Yes</u> &nbsp;&nbsp;
+        <b>Passport/ID No.:</b> <u>{{$bg->guest->idno}}</u> &nbsp;&nbsp;
+        <b>OFW?:</b> <u>{{ $bg->guest->ofw ? "Yes" : "No" }}</u> &nbsp;&nbsp;
     </div>
     <div>
         <b>Country of Residence:</b> <u>{{$bg->guest->country}}</u> &nbsp;&nbsp;
