@@ -92,7 +92,23 @@ class BookingController extends Controller
             'purpose' => 'string|required',
         ]);
 
-        $booking = Booking::create($request->all());
+        if($confirmed = in_array($request->source,['Via Agoda','Via Booking.com'])) {
+            $roomRate = 0;
+        }else {
+            $roomRate = $request->room_rate;
+        }
+
+        $booking = Booking::create([
+            'guest_id' => $request->guest_id,
+            'room_id' => $request->room_id,
+            'check_in' => $request->check_in,
+            'check_out' => $request->check_out,
+            'source' => $request->source,
+            'room_rate' => $roomRate,
+            'purpose' => $request->purpose,
+            'added_by' => $request->added_by,
+            'status' => $confirmed ? "Confirmed by " . auth()->user()->uname : "pending"
+        ]);
 
         BookingGuest::create([
             'guest_id' => $request->guest_id,
@@ -225,5 +241,40 @@ class BookingController extends Controller
         $booking->save();
 
         return back()->with('Info','The discount of this booking has been updated.');
+    }
+
+    public function addVat(Booking $booking) {
+        $booking->vat = $booking->total_before_vat * 0.12;
+        $booking->save();
+
+        return redirect('/bookings/' . $booking->id)->with('Info','VAT has been added to this booking');
+    }
+
+    public function removeVat(Booking $booking) {
+        $booking->vat = 0;
+        $booking->save();
+
+        return redirect('/bookings/' . $booking->id)->with('Info','VAT has been removed from this booking');
+    }
+
+    public function addSurcharge(Booking $booking, Request $request) {
+        $request->validate([
+            'portion' => 'string|required',
+            'percent' => 'numeric|required'
+        ]);
+
+        $booking->cc_surcharge_percent = $request->percent;
+        $booking->cc_surcharge_portion = $request->portion;
+        $booking->save();
+
+        return redirect('/bookings/' . $booking->id)->with('Info','This booking has been imposed with surcharges for credit card/debit card payment');
+    }
+
+    public function removeSurcharge(Booking $booking) {
+        $booking->cc_surcharge_percent = 0;
+        $booking->cc_surcharge_portion = null;
+        $booking->save();
+
+        return redirect('/bookings/'. $booking->id)->with('Info','The surcharge of this booking has been removed.');
     }
 }

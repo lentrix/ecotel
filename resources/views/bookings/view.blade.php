@@ -8,6 +8,11 @@
 @include('bookings._cancel-booking-modal')
 @include('bookings._confirm-booking-modal')
 @include('bookings._edit-discount-modal')
+@include('bookings._add-vat-modal')
+@include('bookings._remove-vat-modal')
+@include('bookings._remove-surcharge-modal')
+@include('bookings._add-surcharge-modal')
+
 
 
 {!! Form::open(['url'=>'/bookings/add-guest/' . $booking->id,'method'=>'post', 'id'=>"add-guest-form"]) !!}
@@ -15,7 +20,7 @@
 {!! Form::close() !!}
 
 <div class="heading-bar">
-    <h1 class="title">View Booking {{$booking->id}}</h1>
+    <h1 class="title">View Booking</h1>
     <div class="flex space-x-2">
         <a href="{{url('/bookings/guest-records/' . $booking->id)}}" class="primary" target="_blank">
             Guest Records
@@ -30,10 +35,14 @@
 
     <div class='w-1/2 p-4 rounded-md bg-green-100'>
 
-        <h2 class="text-2xl pt-3 pb-2">Booking Details</h2>
+        <div class="flex justify-between">
+            <h2 class="text-2xl pt-3 pb-2">Booking Details</h2>
+            <div class="flex space-x-2">
+
+            </div>
+        </div>
 
         <table class="table">
-
             <tr>
                 <th class="bg-green-900 text-green-200 w-[180px]">Status</th>
                 <td class="bg-white">
@@ -85,9 +94,11 @@
                     <div class="font-bold">
                         <i class="fa-solid fa-peso-sign"></i> {{ number_format($booking->room_rent,2) }}
                     </div>
+                    @if($booking->room_rent>0)
                     <div class='italic'>
                         {{$booking->nights}} nights @ {{$booking->room->rate}}
                     </div>
+                    @endif
                 </td>
             </tr>
             <tr>
@@ -99,6 +110,40 @@
                     </div>
                 </td>
             </tr>
+
+            @if($booking->vat>0)
+            <tr>
+                <th class="bg-green-900 text-green-200">12% VAT</th>
+                <td class="bg-white">
+                    <div class="flex justify-between">
+                        <div class='font-bold'>
+                            <i class="fa-solid fa-peso-sign"></i>
+                            {{number_format($booking->vat,2)}}
+                        </div>
+                        <button class="text-xl hover:text-gray-500 text-red-700" id="remove-vat-button">
+                            <i class="fa fa-trash" title="Remove VAT"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            @endif
+
+            @if($booking->cc_surcharge_percent>0)
+            <tr>
+                <th class="bg-green-900 text-green-200">Surcharge</th>
+                <td class="bg-white">
+                    <div class="flex justify-between">
+                        <div class='font-bold'>
+                            <i class="fa-solid fa-peso-sign"></i>
+                            {{number_format($booking->surcharge,2)}}
+                        </div>
+                        <button class="text-xl hover:text-gray-500 text-red-700" id="remove-surcharge-button">
+                            <i class="fa fa-trash" title="Remove Surcharge"></i>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            @endif
 
             <tr>
                 <th class="bg-green-900 text-green-200">Discount</th>
@@ -133,21 +178,32 @@
 
         </table>
 
-        @if($booking->status=="pending")
         <div class="flex space-x-2 mt-8 w-full">
+            @if($booking->status=="pending")
             <div>
                 <button class="flex-1 secondary" id="confirm-booking-button">
                     <i class="fa fa-check"></i> Confirm Booking
                 </button>
-
             </div>
             <div>
                 <button class="danger flex-1" id="cancel-booking-button">
                     <i class="fa fa-ban"></i> Cancel Booking
                 </button>
             </div>
+            @endif
+
+            <div>
+                <button class="secondary flex-1" id="add-vat-button">
+                    <i class="fa fa-plus"></i> VAT
+                </button>
+            </div>
+
+            <div>
+                <button class="secondary flex-1" id="add-surcharge-button">
+                    <i class="fa fa-plus"></i> Surcharge
+                </button>
+            </div>
         </div>
-        @endif
     </div>
 
     <div class="w-1/2 rounded-md bg-green-50 p-4">
@@ -265,6 +321,22 @@ $(document).ready(()=>{
 
     $("#edit-discount-button").click(()=>{
         $("#edit-discount-backdrop, #edit-discount-wrapper").removeClass('hidden')
+    })
+
+    $("#add-vat-button").click(()=>{
+        $("#add-vat-backdrop, #add-vat-wrapper").removeClass('hidden')
+    })
+
+    $("#remove-vat-button").click(()=>{
+        $("#remove-vat-backdrop, #remove-vat-wrapper").removeClass('hidden')
+    })
+
+    $("#add-surcharge-button").click(()=>{
+        $("#add-surcharge-backdrop, #add-surcharge-wrapper").removeClass('hidden')
+    })
+
+    $("#remove-surcharge-button").click(()=>{
+        $("#remove-surcharge-backdrop, #remove-surcharge-wrapper").removeClass('hidden')
     })
 
     $(".close-modal").click(()=>{

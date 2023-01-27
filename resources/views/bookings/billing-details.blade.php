@@ -72,12 +72,23 @@
         </td>
     </tr>
 
+    @if($booking->vat>0)
     <tr>
         <td><b>12% VAT</b></td>
         <td style="text-align: right">
-            {{ number_format($booking->vat_amount,2) }}
+            {{ number_format($booking->vat,2) }}
         </td>
     </tr>
+    @endif
+
+    @if($booking->cc_surcharge_percent>0)
+    <tr>
+        <td><b>Surcharge (CC/DC)</b></td>
+        <td style="text-align: right">
+            {{ number_format($booking->surcharge,2) }}
+        </td>
+    </tr>
+    @endif
 
     @if($booking->down_payment>0)
     <tr>

@@ -15,7 +15,7 @@ class Booking extends Model
         'check_out' => 'datetime',
     ];
 
-    protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast','purpose'];
+    protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast','purpose','status'];
 
     public function getGuestAttribute() {
         $bookingGuest = BookingGuest::where('booking_id', $this->id)
@@ -63,13 +63,13 @@ class Booking extends Model
         return $this->room_rent + $this->addonTotal;
     }
 
-    public function getVatAmountAttribute() {
-        $gross = $this->grossTotal;
+    // public function getVatAmountAttribute() {
+    //     $gross = $this->grossTotal;
 
-        $vatAmt = $gross - ($gross*(100/(112)));
+    //     $vatAmt = $gross - ($gross*(100/(112)));
 
-        return $vatAmt;
-    }
+    //     return $vatAmt;
+    // }
 
     public static function currentBookings() {
         $now = Carbon::parse( date('Y-m-d') );
@@ -87,7 +87,31 @@ class Booking extends Model
     }
 
     public function getTotalPayoutAttribute() {
-        return ($this->room_rent + $this->addonTotal) - ($this->down_payment + $this->discount_amount);
+        return ($this->room_rent + $this->addonTotal + $this->surcharge + $this->vat) - ($this->down_payment + $this->discount_amount);
+    }
+
+    public function getTotalBeforeVatAttribute() {
+        return ($this->room_rent + $this->addonTotal + $this->surcharge) - ($this->down_payment + $this->discount_amount);
+    }
+
+    public function getSurchargeAttribute() {
+        if($this->cc_surcharge_percent==0) {
+            return 0;
+        }
+
+        if($this->cc_surcharge_portion=="down payment") {
+            return $this->down_payment * ($this->cc_surcharge_percent/100);
+        }
+
+        if($this->cc_surcharge_portion=="balance") {
+            $balance = ($this->room_rent + $this->addonTotal + $this->vat) - ($this->down_payment+$this->discount_amount);
+            return $balance * ($this->cc_surcharge_percent/100);
+        }
+
+        if($this->cc_surcharge_portion=="total") {
+            $total = ($this->room_rent + $this->addonTotal + $this->vat) - $this->discount_amount;
+            return $total * ($this->cc_surcharge_percent/100);
+        }
     }
 
     public function guestIsInBooking($guestId) {

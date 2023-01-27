@@ -49,6 +49,10 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/bookings/add-on/{booking}',[BookingController::class, 'addAddonItem']);
     Route::post('/bookings/confirm/{booking}',[BookingController::class, 'confirmBooking']);
     Route::post('/bookings/cancel/{booking}',[BookingController::class, 'cancelBooking']);
+    Route::post('/bookings/add-vat/{booking}',[BookingController::class, 'addVat']);
+    Route::post('/bookings/remove-vat/{booking}',[BookingController::class, 'removeVat']);
+    Route::post('/bookings/remove-surcharge/{booking}',[BookingController::class, 'removeSurcharge']);
+    Route::post('/bookings/add-surcharge/{booking}',[BookingController::class, 'addSurcharge']);
     Route::delete('/bookings/add-on/{booking}',[BookingController::class, 'removeAddonItem']);
     Route::get('/bookings/guest-records/{booking}',[BookingController::class, 'guestRecords']);
     Route::get('/bookings/billing-details/{booking}',[BookingController::class, 'billingDetails']);
