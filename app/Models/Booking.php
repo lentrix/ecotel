@@ -76,7 +76,9 @@ class Booking extends Model
         $now->addMinutes(721);
 
         return static::where('check_in','<=',$now)
-            ->where('check_out','>',$now)->get();
+            ->where('check_out','>',$now)
+            ->whereNot('status','LIKE',"Cancelled%")
+            ->get();
     }
 
     public static function upComingBookings() {
@@ -119,5 +121,9 @@ class Booking extends Model
             ->where('booking_id', $this->id)->first();
 
         return $gb;
+    }
+
+    public function getCancelledAttribute() {
+        return strcmp(substr($this->status, 0, 9), "Cancelled") == 0;
     }
 }

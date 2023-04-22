@@ -19,7 +19,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->run(UserSeeder::class);
+        // $this->run(UserSeeder::class);
         $rooms = [
             [
                 'type'=>'Economy',
@@ -54,9 +54,9 @@ class DatabaseSeeder extends Seeder
             }
         }
 
-        // Guest::factory(50)->create();
+        Guest::factory(50)->create();
 
-        // Booking::factory(100)->create();
+        Booking::factory(100)->create();
 
     }
 }

@@ -30,6 +30,8 @@ class Room extends Model
 
         return Booking::where('check_in','<=',$now)
             ->where('check_out','>',$now)
-            ->where('room_id', $this->id)->first();
+            ->where('room_id', $this->id)
+            ->whereNot('status','LIKE',"Cancelled%")
+            ->first();
     }
 }

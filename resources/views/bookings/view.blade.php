@@ -12,6 +12,7 @@
 @include('bookings._remove-vat-modal')
 @include('bookings._remove-surcharge-modal')
 @include('bookings._add-surcharge-modal')
+@include('bookings._delete-booking-modal')
 
 
 
@@ -78,8 +79,19 @@
             </tr>
             <tr>
                 <th class="bg-green-900 text-green-200">With breakfast</th>
-                <td class="bg-white">
+                <td class="bg-white flex justify-between">
                     <div class='font-bold'>{{$booking->with_breakfast ? "Yes" : "No"}}</div>
+                    <div>
+                        {!! Form::open(['url'=>'/bookings/toggle-breakfast/' . $booking->id, 'method'=>'patch']) !!}
+                            <button class="text-xl">
+                                @if($booking->with_breakfast)
+                                    <i class="fa-solid fa-toggle-on text-green-700" title="Exclude breakfast from booking"></i>
+                                @else
+                                    <i class="fa-solid fa-toggle-off text-gray-500" title="Include breakfast from booking"></i>
+                                @endif
+                            </button>
+                        {!! Form::close() !!}
+                    </div>
                 </td>
             </tr>
             <tr>
@@ -180,29 +192,38 @@
 
         <div class="flex space-x-2 mt-8 w-full">
             @if($booking->status=="pending")
-            <div>
-                <button class="flex-1 secondary" id="confirm-booking-button">
-                    <i class="fa fa-check"></i> Confirm Booking
-                </button>
-            </div>
-            <div>
-                <button class="danger flex-1" id="cancel-booking-button">
-                    <i class="fa fa-ban"></i> Cancel Booking
-                </button>
-            </div>
+                <div>
+                    <button class="flex-1 secondary" id="confirm-booking-button">
+                        <i class="fa fa-check"></i> Confirm Booking
+                    </button>
+                </div>
+
             @endif
 
-            <div>
-                <button class="secondary flex-1" id="add-vat-button">
-                    <i class="fa fa-plus"></i> VAT
-                </button>
-            </div>
+            @if( $booking->cancelled )
+                <div>
+                    <button class="danger flex-1" id="delete-booking-button">
+                        <i class="fa fa-trash"></i> Delete Booking
+                    </button>
+                </div>
+            @else
+                <div>
+                    <button class="secondary flex-1" id="add-vat-button">
+                        <i class="fa fa-plus"></i> VAT
+                    </button>
+                </div>
 
-            <div>
-                <button class="secondary flex-1" id="add-surcharge-button">
-                    <i class="fa fa-plus"></i> Surcharge
-                </button>
-            </div>
+                <div>
+                    <button class="secondary flex-1" id="add-surcharge-button">
+                        <i class="fa fa-plus"></i> Surcharge
+                    </button>
+                </div>
+                <div>
+                    <button class="danger flex-1" id="cancel-booking-button">
+                        <i class="fa fa-ban"></i> Cancel Booking
+                    </button>
+                </div>
+            @endif
         </div>
     </div>
 
@@ -337,6 +358,10 @@ $(document).ready(()=>{
 
     $("#remove-surcharge-button").click(()=>{
         $("#remove-surcharge-backdrop, #remove-surcharge-wrapper").removeClass('hidden')
+    })
+
+    $("#delete-booking-button").click(()=>{
+        $("#delete-booking-backdrop, #delete-booking-wrapper").removeClass('hidden')
     })
 
     $(".close-modal").click(()=>{

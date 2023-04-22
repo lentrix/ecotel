@@ -50,11 +50,13 @@ class BookingController extends Controller
 
         $rooms = Room::whereDoesntHave('bookings', function($q1) use ($checkIn, $checkOut){
             $q1->where(function($q2) use ($checkIn, $checkOut) {
-                $q2->where('check_in','<=', $checkIn)
-                    ->where('check_out','>=', $checkIn);
+                    $q2->where('check_in','<=', $checkIn)
+                    ->where('check_out','>=', $checkIn)
+                    ->whereNot('status','like','Cancelled%');
             })->orWhere(function($q3) use ($checkIn, $checkOut) {
-                $q3->where('check_in','<=', $checkOut)
-                ->where('check_out','>=', $checkOut);
+                    $q3->where('check_in','<=', $checkOut)
+                    ->where('check_out','>=', $checkOut)
+                    ->whereNot('status','like','Cancelled%');
             });
         })->orderBy('room_type')->orderBy('name');
 
@@ -105,6 +107,7 @@ class BookingController extends Controller
             'check_out' => $request->check_out,
             'source' => $request->source,
             'room_rate' => $roomRate,
+            'with_breakfast' => $request->with_breakfast,
             'purpose' => $request->purpose,
             'added_by' => $request->added_by,
             'status' => $confirmed ? "Confirmed by " . auth()->user()->uname : "pending"
@@ -276,5 +279,30 @@ class BookingController extends Controller
         $booking->save();
 
         return redirect('/bookings/'. $booking->id)->with('Info','The surcharge of this booking has been removed.');
+    }
+
+    public function toggleBooking(Booking $booking) {
+        $booking->update([
+            'with_breakfast' => !$booking->with_breakfast
+        ]);
+
+        return back()->with('Info','Breakfast inclusion has been updated.');
+    }
+
+    public function destroy(Booking $booking) {
+
+        if(!$booking->cancelled) return back()->with('Error','Only cancelled bookings are allowed to be deleted.');
+
+        $msg = "The booking of " . $booking->guest->fullName . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y') . " has been deleted.";
+
+        // $booking->bookingGuests->delete();
+        BookingGuest::where('booking_id', $booking->id)->delete();
+        // $booking->bookingAddons->delete();
+        BookingAddon::where('booking_id', $booking->id)->delete();
+        $booking->delete();
+
+        return redirect('/bookings')->with('Info',$msg);
     }
 }

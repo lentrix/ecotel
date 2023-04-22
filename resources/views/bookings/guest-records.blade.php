@@ -56,7 +56,7 @@
 <div style="border: 1px solid black; padding: 8px; ">
     <div>
         <b>Check In Date: </b> {{$booking->check_in->format('F d, Y')}} &nbsp;&nbsp;
-        <b>Check Out Date: </b> {{$booking->check_in->format('F d, Y')}} &nbsp;&nbsp;
+        <b>Check Out Date: </b> {{$booking->check_out->format('F d, Y')}} &nbsp;&nbsp;
         <b>Total Nights: </b> {{$booking->nights}} &nbsp;&nbsp;
         <b># of Guests: </b> {{$booking->bookingGuests->count()}} &nbsp;&nbsp;
     </div>

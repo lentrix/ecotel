@@ -46,6 +46,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/bookings/create/finalize',[BookingController::class, 'store']);
     Route::post('/bookings/add-guest/{booking}',[BookingController::class, 'addGuest']);
     Route::post('/bookings/remove-guest/{booking}',[BookingController::class, 'removeGuest']);
+    Route::patch('/bookings/toggle-breakfast/{booking}',[BookingController::class, 'toggleBooking']);
     Route::post('/bookings/add-on/{booking}',[BookingController::class, 'addAddonItem']);
     Route::post('/bookings/confirm/{booking}',[BookingController::class, 'confirmBooking']);
     Route::post('/bookings/cancel/{booking}',[BookingController::class, 'cancelBooking']);
@@ -58,6 +59,7 @@ Route::middleware(['auth'])->group(function() {
     Route::get('/bookings/billing-details/{booking}',[BookingController::class, 'billingDetails']);
     Route::patch('/bookings/{booking}',[BookingController::class, 'updateDiscount']);
     Route::get('/bookings/{booking}',[BookingController::class, 'show']);
+    Route::delete('/bookings/{booking}',[BookingController::class, 'destroy']);
 
     Route::get('/reports',[ReportController::class,'index']);
     Route::get('/reports/daily-summary', [ReportController::class, 'dailySummary']);

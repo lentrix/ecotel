@@ -1,0 +1,14 @@
+Hi Bruce. Karon lang ako nagka time. Here are my comments on the program.
+
+GUEST RECORDS:
+✓  If forget to tick ‘with breakfast’, cannot go back or edit to correct; If we book a guest, even if we tick ‘with breakfast’, in the view booking menu, it says ‘No’ breakfast.
+✓  In the pdf (Guest Records), the check out date is the same as check-in date;
+•   In the view booking menu, can the fields be editable? Example, if nag extend ang guest ng stay, we should be able to just edit the check out date. If the encoder also made mistake in the date, there should be a way to easily correct it. Maybe allow to go back to previous page so that correction can be made if needed;
+•   Please allow easy deletion of guest and booking since we also receive many cancellations. We have also added dummy guests and bookings during this trial period which we want to delete.
+✓  If we cancel booking, we cannot use that room again to book another guest.
+
+BILLING:
+•	Sometimes, there are changes in occupancy in a certain room. For instance, there are guests in a big family room for 5 pax for 3 nights. In the first night, 4 pax sila pero sa 2nd and 3rd night, 5 pax na sila or vice versa. In cases like this, the rate per night changes because the rate depends on the number of persons. How can the billing menu take this scenario into account?
+•	Upon check out, there is no place to record the payment on the remaining balance. The recording should be the same with the downpayment.
+•	Add on items are becoming too many. Can the billing part be more flexible? Can we just add additional items in the bill without including them sa add ons? Example extra charges like broken drinking glass, special washing charge for dirty linens, printing and photocopying charges, etc.?
+•	Please allow VAT charging to rooms only, excluding add ons.
