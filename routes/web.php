@@ -89,4 +89,6 @@ Route::middleware(['auth'])->group(function() {
         Route::delete('/users/{user}', [UserController::class, 'destroy']);
     });
 
+    Route::get('/logs', [SiteController::class, 'logsView']);
+
 });

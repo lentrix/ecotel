@@ -6,6 +6,7 @@ use App\Models\Addon;
 use App\Models\Booking;
 use App\Models\BookingGuest;
 use App\Models\Guest;
+use App\Models\Log;
 use App\Models\Room;
 use App\Models\User;
 use Carbon\Carbon;
@@ -80,5 +81,23 @@ class SiteController extends Controller
     public function logout() {
         auth()->logout();
         return redirect('/');
+    }
+
+    public function logsView(Request $request) {
+        $logs = Log::orderBy('created_at','desc');
+
+        if($request->user_id) {
+            $logs->where('user_id', $request->user_id);
+        }
+
+        if($request->date_from && $request->date_to) {
+            $logs->whereBetween('created_at',[$request->date_from, $request->date_to]);
+        }
+
+        return view('logs',[
+            'users' => User::orderBy('full_name')->pluck('full_name','id'),
+            'logs'=>$logs->paginate(20),
+            'request' => $request
+        ]);
     }
 }

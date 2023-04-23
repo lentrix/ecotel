@@ -7,6 +7,7 @@ use App\Models\Booking;
 use App\Models\BookingAddon;
 use App\Models\BookingGuest;
 use App\Models\Guest;
+use App\Models\Log;
 use App\Models\Room;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -118,6 +119,13 @@ class BookingController extends Controller
             'booking_id' => $booking->id
         ]);
 
+        Log::create([
+            'user_id'=>auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description'=>'Created booking'
+        ]);
+
         return redirect('bookings/' . $booking->id)->with('Info','New booking created.');
     }
 
@@ -138,7 +146,7 @@ class BookingController extends Controller
 
         $addon = Addon::findOrFail($request->addon_id);
 
-        BookingAddon::create([
+        $bookingAddon = BookingAddon::create([
             'booking_id' => $booking->id,
             'addon_id' => $addon->id,
             'qty' => $request->qty,
@@ -146,12 +154,31 @@ class BookingController extends Controller
             'added_by' => auth()->user()->id
         ]);
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $bookingAddon->booking_id,
+            'description' => "Addon added ($addon->name amounting to $bookingAddon->amount)"
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','An add-on has been added to this booking.');
     }
 
     public function removeAddonItem(Booking $booking, Request $request) {
+        $bookingAddon = BookingAddon::where('booking_id', $booking->id)
+            ->where('addon_id', $request->addon_id)->first();
+
+        $addStr = $bookingAddon->qty . " " . $bookingAddon->addon->name . " amounting to " . $bookingAddon->amount;
+
         BookingAddon::where('booking_id', $booking->id)
             ->where('addon_id', $request->addon_id)->delete();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Removed addon (" . $addStr . ")"
+        ]);
         return back()->with('Info','An Add-on has been removed from this booking');
     }
 
@@ -169,6 +196,15 @@ class BookingController extends Controller
             'guest_id' => $request->guest_id
         ]);
 
+        $guest = Guest::find($request->guest_id);
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Guest $guest->full_name added to booking."
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','A guest has been added.');
     }
 
@@ -177,9 +213,19 @@ class BookingController extends Controller
             'guest_id' => 'numeric|required'
         ]);
 
+        $bookingGuest = BookingGuest::where('booking_id',$booking->id)
+            ->where('guest_id', $request->guest_id)->first();
+
         BookingGuest::where('booking_id',$booking->id)
             ->where('guest_id', $request->guest_id)
             ->delete();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Guest " . $bookingGuest->guest->full_name . " removed from booking"
+        ]);
 
         return back()->with('Info','A guest has been removed from this booking.');
     }
@@ -195,12 +241,26 @@ class BookingController extends Controller
         $booking->status = "confirmed by " . auth()->user()->uname;
         $booking->save();
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Booking confirmed"
+        ]);
+
         return back()->with('Info','This booking has been confirmed');
     }
 
     public function cancelBooking(Booking $booking) {
         $booking->status = "Cancelled by " . auth()->user()->uname;
         $booking->save();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Cancelled booking"
+        ]);
 
         return back()->with('Info','This booking has been cancelled');
     }
@@ -243,6 +303,13 @@ class BookingController extends Controller
 
         $booking->save();
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Updated discount. Discount amount: " . $booking->discount_amount
+        ]);
+
         return back()->with('Info','The discount of this booking has been updated.');
     }
 
@@ -250,12 +317,26 @@ class BookingController extends Controller
         $booking->vat = $booking->total_before_vat * 0.12;
         $booking->save();
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Added VAT"
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','VAT has been added to this booking');
     }
 
     public function removeVat(Booking $booking) {
         $booking->vat = 0;
         $booking->save();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Removed VAT"
+        ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','VAT has been removed from this booking');
     }
@@ -270,6 +351,13 @@ class BookingController extends Controller
         $booking->cc_surcharge_portion = $request->portion;
         $booking->save();
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Added Surcharge"
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','This booking has been imposed with surcharges for credit card/debit card payment');
     }
 
@@ -278,12 +366,26 @@ class BookingController extends Controller
         $booking->cc_surcharge_portion = null;
         $booking->save();
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Removed Surcharge"
+        ]);
+
         return redirect('/bookings/'. $booking->id)->with('Info','The surcharge of this booking has been removed.');
     }
 
     public function toggleBooking(Booking $booking) {
         $booking->update([
             'with_breakfast' => !$booking->with_breakfast
+        ]);
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => $booking->with_breakfast ? "Added breakfast" : "Removed breakfast"
         ]);
 
         return back()->with('Info','Breakfast inclusion has been updated.');
@@ -302,6 +404,13 @@ class BookingController extends Controller
         // $booking->bookingAddons->delete();
         BookingAddon::where('booking_id', $booking->id)->delete();
         $booking->delete();
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => 0,
+            'description' => $msg
+        ]);
 
         return redirect('/bookings')->with('Info',$msg);
     }

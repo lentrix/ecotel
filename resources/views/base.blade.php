@@ -32,6 +32,7 @@
                         <a href="{{url('/addons')}}" class="main-nav">Addons</a>
                         <a href="{{url('/users')}}" class="main-nav">Users</a>
                     @endif
+                    <a href="{{url('logs')}}" class="main-nav">Logs</a>
                     {!! Form::open(['url'=>'/logout','method'=>'post','class'=>'inline']) !!}
                         <button type="submit" class="main-nav">Log Out</button>
                     {!! Form::close() !!}
