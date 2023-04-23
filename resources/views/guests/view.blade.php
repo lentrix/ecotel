@@ -3,10 +3,16 @@
 @section('content')
 
 @include('guests._edit-guest-modal')
+@include('guests._delete-guest-modal',['guest'=>$guest])
 
 <div class="heading-bar">
     <h1 class="title">Guest: {{$guest->full_name}}</h1>
     <div class="flex space-x-4">
+        @if($guest->noBooking)
+            <button class="danger" id="delete-guest-button">
+                <i class="fa fa-trash"></i> Delete Guest
+            </button>
+        @endif
         <button class="secondary" type="button" id="editGuestButton">
             <i class="fa fa-edit"></i> Edit Guest Profile
         </button>
@@ -120,8 +126,13 @@ $(document).ready(()=>{
         $("#edit-guest-backdrop, #edit-guest-wrapper").removeClass('hidden')
     })
 
+    $("#delete-guest-button").click(()=>{
+        $("#delete-guest-backdrop, #delete-guest-wrapper").removeClass('hidden')
+    })
+
     $(".close-modal").click(()=>{
         $("#edit-guest-backdrop, #edit-guest-wrapper").addClass('hidden')
+        $("#delete-guest-backdrop, #delete-guest-wrapper").addClass('hidden')
     })
 })
 

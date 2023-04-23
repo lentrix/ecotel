@@ -37,6 +37,7 @@ Route::middleware(['auth'])->group(function() {
     Route::post('/guests/search',[Guestcontroller::class,'index']);
     Route::get('/guests/{guest}',[GuestController::class,'show']);
     Route::patch('/guests/{guest}',[GuestController::class,'update']);
+    Route::delete('/guests/{guest}',[GuestController::class,'destroy']);
     Route::post('/guests',[GuestController::class, 'store']);
     Route::get('/guests',[GuestController::class,'index']);
 

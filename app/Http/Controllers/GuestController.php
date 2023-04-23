@@ -61,4 +61,10 @@ class GuestController extends Controller
         $guest->update($request->all());
         return redirect('/guests/' . $guest->id)->with('Info','This guest\'s profile has been updated.');
     }
+
+    public function destroy(Guest $guest) {
+        $msg = "The guest records of " . $guest->full_name . " has been deleted.";
+        $guest->delete();
+        return redirect('/guests')->with('Info', $msg);
+    }
 }
