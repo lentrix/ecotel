@@ -13,6 +13,7 @@
 @include('bookings._remove-surcharge-modal')
 @include('bookings._add-surcharge-modal')
 @include('bookings._delete-booking-modal')
+@include('bookings._add-custom-addon-item-modal')
 
 
 
@@ -24,10 +25,10 @@
     <h1 class="title">View Booking</h1>
     <div class="flex space-x-2">
         <a href="{{url('/bookings/guest-records/' . $booking->id)}}" class="primary" target="_blank">
-            Guest Records
+            <i class="fa fa-file"></i> Guest Records
         </a>
         <a href="{{url('/bookings/billing-details/' . $booking->id)}}" class="primary" target="_blank">
-            Billing Details
+            <i class="fa-regular fa-money-bill-1"></i> Billing Details
         </a>
     </div>
 </div>
@@ -36,10 +37,12 @@
 
     <div class='w-1/2 p-4 rounded-md bg-green-100'>
 
-        <div class="flex justify-between">
+        <div class="flex justify-between items-center">
             <h2 class="text-2xl pt-3 pb-2">Booking Details</h2>
             <div class="flex space-x-2">
-
+                <a href="{{url('/bookings/edit/' . $booking->id)}}" class="btn primary">
+                    <i class="fa fa-edit"></i> Edit Booking
+                </a>
             </div>
         </div>
 
@@ -258,9 +261,16 @@
 
         <div class='flex justify-between pb-3'>
             <h2 class="text-2xl mb-3">Addons</h2>
-            <button class="secondary" type="button" id="addAddonItemButton">
-                <i class="fa fa-plus"></i> Add Item
-            </button>
+
+            <div class="flex space-x-2">
+                <button class="secondary" type="button" id="addAddonItemButton">
+                    <i class="fa fa-plus"></i> Add Item
+                </button>
+                <button class="secondary" type="button" id="addCustomAddonItemButton">
+                    <i class="fa fa-plus"></i> Add Custom
+                </button>
+
+            </div>
         </div>
 
         <table class="table">
@@ -275,8 +285,8 @@
             <tbody>
                 @foreach($booking->bookingAddons as $bka)
                     <tr>
-                        <td>{{$bka->addon->name}}</td>
-                        <td class="text-center">{{$bka->qty}}&#64;{{$bka->addon->amount}}</td>
+                        <td>{{$bka->addon->name=="Others" ? $bka->remarks : $bka->addon->name}}</td>
+                        <td class="text-center">{{ $bka->addon->name=="Others" ? $bka->qty : $bka->qty . "@" . $bka->addon->amount}}</td>
                         <td class="text-end">{{number_format($bka->amount,2)}}</td>
                         <td class="text-center">
                             {!! Form::open(['url'=>'/bookings/add-on/' . $booking->id,'method'=>'delete']) !!}
@@ -314,6 +324,10 @@
 $(document).ready(()=>{
     $("#addAddonItemButton").click(()=>{
         $("#add-addon-item-backdrop, #add-addon-item-wrapper").removeClass('hidden')
+    })
+
+    $("#addCustomAddonItemButton").click(()=>{
+        $("#add-custom-addon-item-backdrop, #add-custom-addon-item-wrapper").removeClass('hidden')
     })
 
     $("#addGuestButton").click(()=>{

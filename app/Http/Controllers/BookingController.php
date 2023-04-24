@@ -164,6 +164,36 @@ class BookingController extends Controller
         return redirect('/bookings/' . $booking->id)->with('Info','An add-on has been added to this booking.');
     }
 
+    public function addCustomAddonItem(Booking $booking, Request $request) {
+        $request->validate([
+            'remarks' => 'string|required',
+            'qty' => 'numeric|required',
+            'amount' => 'numeric|required',
+        ]);
+
+        //create or retrieve others addon
+        $others = Addon::where('name','Others')->first();
+        if(!$others) {
+            $others = Addon::create([
+                'name' => 'Others',
+                'description' => 'Custom Addon',
+                'addon_typ' => 'others',
+                'amount' => 0
+            ]);
+        }
+
+        BookingAddon::create([
+            'booking_id' => $booking->id,
+            'addon_id' => $others->id,
+            'qty' => $request->qty,
+            'amount' => $request->amount,
+            'remarks' => $request->remarks,
+            'added_by' => auth()->user()->id,
+        ]);
+
+        return redirect('/bookings/' . $booking->id)->with('Info','A custom addon has been added.');
+    }
+
     public function removeAddonItem(Booking $booking, Request $request) {
         $bookingAddon = BookingAddon::where('booking_id', $booking->id)
             ->where('addon_id', $request->addon_id)->first();
@@ -413,5 +443,53 @@ class BookingController extends Controller
         ]);
 
         return redirect('/bookings')->with('Info',$msg);
+    }
+
+    public function edit(Booking $booking) {
+        return view('bookings.edit',[
+            'booking' => $booking,
+            'rooms' => Room::orderBy('name')->pluck('name','id')
+        ]);
+    }
+
+    public function update(Booking $booking, Request $request) {
+        $request->validate([
+            'check_in' => 'date|required',
+            'check_out' => 'date|required',
+            'source' => 'string|required',
+            'purpose' => 'string|required',
+        ]);
+
+        //check availability
+
+        $checkIn = Carbon::parse($request->check_in . "12:01");
+        $checkOut = Carbon::parse($request->check_out . "12:00");
+
+        $otherBookings = Booking::where('room_id', $request->room_id)
+            ->where(function($q) use ($checkIn, $checkOut){
+                $q->whereBetween('check_in',[$checkIn, $checkOut])
+                    ->orWhereBetween('check_out',[$checkIn, $checkOut]);
+            })
+            ->whereNot('id', $booking->id)
+            ->first();
+
+        if($otherBookings) {
+            return back()->with('Error',"Booking changes will conflict with another booking by <a href='"
+                    . url('/bookings/' . $otherBookings->id) ."' class='font-bold'>"
+                    . $otherBookings->guest->full_name . "</a>.");
+        }
+
+        $room = Room::find($request->room_id);
+
+        $booking->update([
+            'room_id' => $request->room_id,
+            'check_in' => $request->check_in,
+            'check_out' => $request->check_out,
+            'source' => $request->source,
+            'purpose' => $request->purpose,
+            'room_rate' => $room->rate
+        ]);
+
+        return redirect('/bookings/' . $booking->id)->with('Info','This booking has been updated.');
     }
 }
