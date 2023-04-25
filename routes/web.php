@@ -64,6 +64,7 @@ Route::middleware(['auth'])->group(function() {
     Route::delete('/bookings/{booking}',[BookingController::class, 'destroy']);
     Route::get('/bookings/edit/{booking}',[BookingController::class, 'edit']);
     Route::put('/bookings/{booking}',[BookingController::class, 'update']);
+    Route::post('/bookings/checkout/{booking}',[BookingController::class, 'checkout']);
 
     Route::get('/reports',[ReportController::class,'index']);
     Route::get('/reports/daily-summary', [ReportController::class, 'dailySummary']);

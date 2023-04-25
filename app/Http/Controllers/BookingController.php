@@ -191,6 +191,15 @@ class BookingController extends Controller
             'added_by' => auth()->user()->id,
         ]);
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Created the booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','A custom addon has been added.');
     }
 
@@ -207,8 +216,11 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Removed addon (" . $addStr . ")"
+            'description' => "Removed addon (" . $addStr . ") from booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
+
         return back()->with('Info','An Add-on has been removed from this booking');
     }
 
@@ -232,7 +244,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Guest $guest->full_name added to booking."
+            'description' => "Guest $guest->full_name added to booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','A guest has been added.');
@@ -254,7 +268,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Guest " . $bookingGuest->guest->full_name . " removed from booking"
+            'description' => "Guest " . $bookingGuest->guest->full_name . " is removed from booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return back()->with('Info','A guest has been removed from this booking.');
@@ -275,7 +291,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Booking confirmed"
+            'description' => "Confirmed booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return back()->with('Info','This booking has been confirmed');
@@ -289,7 +307,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Cancelled booking"
+            'description' => "Cancelled booking of " .$booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return back()->with('Info','This booking has been cancelled');
@@ -337,21 +357,26 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Updated discount. Discount amount: " . $booking->discount_amount
+            'description' => "Updated discount on booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y') . " to " . $booking->discount_amount
         ]);
 
         return back()->with('Info','The discount of this booking has been updated.');
     }
 
-    public function addVat(Booking $booking) {
-        $booking->vat = $booking->total_before_vat * 0.12;
+    public function addVat(Booking $booking, Request $request) {
+
+        $booking->vat = $request->room_only ? ($booking->room_rent-$booking->down_payment) * 0.12 : $booking->total_before_vat * 0.12;
         $booking->save();
 
         Log::create([
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Added VAT"
+            'description' => "Added VAT to booking of " .$booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','VAT has been added to this booking');
@@ -365,7 +390,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Removed VAT"
+            'description' => "Removed VAT from booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','VAT has been removed from this booking');
@@ -385,7 +412,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Added Surcharge"
+            'description' => "Added Surcharge to booking of " .$booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','This booking has been imposed with surcharges for credit card/debit card payment');
@@ -400,7 +429,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => "Removed Surcharge"
+            'description' => "Removed Surcharge from booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/'. $booking->id)->with('Info','The surcharge of this booking has been removed.');
@@ -415,7 +446,10 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description' => $booking->with_breakfast ? "Added breakfast" : "Removed breakfast"
+            'description' => ($booking->with_breakfast ? "Added breakfast to" : "Removed breakfast from") . " booking of " .
+                    $booking->guest->full_name . " dated "
+                    . $booking->check_in->format('M d, Y') . " to "
+                    . $booking->check_out->format('M d, Y')
         ]);
 
         return back()->with('Info','Breakfast inclusion has been updated.');
@@ -490,6 +524,40 @@ class BookingController extends Controller
             'room_rate' => $room->rate
         ]);
 
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Updated the booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
+        ]);
+
         return redirect('/bookings/' . $booking->id)->with('Info','This booking has been updated.');
+    }
+
+    public function checkout(Booking $booking, Request $request) {
+        $request->validate([
+            'final_payment' => 'numeric|required',
+            'final_pmt_mode' => 'string|required',
+        ]);
+
+        $booking->update([
+            'final_payment' => $request->final_payment,
+            'final_pmt_mode' => $request->final_pmt_mode,
+            'checkout_at' => $request->checkout_at,
+            'status' => 'Checked out by ' . auth()->user()->uname
+        ]);
+
+        Log::create([
+            'user_id' => auth()->user()->id,
+            'table' => 'bookings',
+            'ref_no' => $booking->id,
+            'description' => "Checked out booking of " . $booking->guest->full_name . " dated "
+            . $booking->check_in->format('M d, Y') . " to "
+            . $booking->check_out->format('M d, Y')
+        ]);
+
+        return back()->with('Info','This booking has been checked out.');
     }
 }

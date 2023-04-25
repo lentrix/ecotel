@@ -15,7 +15,8 @@ class Booking extends Model
         'check_out' => 'datetime',
     ];
 
-    protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast','purpose','status'];
+    protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast',
+            'purpose','status','final_payment','final_pmt_mode','checkout_at'];
 
     public function getGuestAttribute() {
         $bookingGuest = BookingGuest::where('booking_id', $this->id)
@@ -29,7 +30,11 @@ class Booking extends Model
     }
 
     public function getIsConfirmedAttribute() {
-        return strchr(substr($this->status,0,9), "Confirmed") == 0;
+        return strcasecmp(substr($this->status,0,9), "Confirmed") == 0;
+    }
+
+    public function getIsCheckedOutAttribute() {
+        return strcasecmp(substr($this->status,0,11), "Checked Out") == 0;
     }
 
     public function bookingGuests() {

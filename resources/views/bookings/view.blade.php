@@ -14,7 +14,7 @@
 @include('bookings._add-surcharge-modal')
 @include('bookings._delete-booking-modal')
 @include('bookings._add-custom-addon-item-modal')
-
+@include('bookings._checkout-modal')
 
 
 {!! Form::open(['url'=>'/bookings/add-guest/' . $booking->id,'method'=>'post', 'id'=>"add-guest-form"]) !!}
@@ -191,6 +191,20 @@
                 </td>
             </tr>
 
+            @if($booking->isCheckedOut)
+
+            <tr class="text-2xl">
+                <th class="bg-green-900 text-green-200">Final Payment</th>
+                <td class="bg-white">
+                    <div class='font-bold flex items-center'>
+                        <i class="fa-solid fa-peso-sign"></i>&nbsp;{{number_format( $booking->final_payment,2)}}
+                        <div class="text-sm text-gray-600 ml-2">({{$booking->final_pmt_mode}})</div>
+                    </div>
+                </td>
+            </tr>
+
+            @endif
+
         </table>
 
         <div class="flex space-x-2 mt-8 w-full">
@@ -226,6 +240,16 @@
                         <i class="fa fa-ban"></i> Cancel Booking
                     </button>
                 </div>
+            @endif
+
+            @if($booking->isConfirmed)
+
+                <div>
+                    <button class="primary flex-1" id="checkout-button">
+                        <i class="fa fa-check"></i> Checkout
+                    </button>
+                </div>
+
             @endif
         </div>
     </div>
@@ -376,6 +400,10 @@ $(document).ready(()=>{
 
     $("#delete-booking-button").click(()=>{
         $("#delete-booking-backdrop, #delete-booking-wrapper").removeClass('hidden')
+    })
+
+    $("#checkout-button").click(()=>{
+        $("#checkout-backdrop, #checkout-wrapper").removeClass('hidden')
     })
 
     $(".close-modal").click(()=>{

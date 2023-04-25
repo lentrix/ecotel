@@ -11,12 +11,17 @@
         <h2 class="text-2xl text-green-900 pb-2 border-b border-green-900">Add VAT</h2>
 
         <div class="overflow-auto max-h-[70vh]">
-            <div class="p-4 bg-green-200 text-green-900 my-8 rounded">
+            <div class="p-4 bg-green-200 text-green-900 my-4 rounded">
                 A 12% VAT amounting to {{ number_format($booking->totalBeforeVat * 0.12, 2) }}
+                or {{ number_format( ($booking->room_rent-$booking->down_payment)*0.12, 2) }} for room only
                 will be added to this booking.
             </div>
             <div class="flex justify-center">
                 {!! Form::open(['url'=>'/bookings/add-vat/' . $booking->id,'method'=>'post']) !!}
+                    <div class="my-4">
+                        <input type="checkbox" name="room_only" id="rooms_only" value="room_only">
+                        <label for="rooms_only">Room Only</label>
+                    </div>
                     <button class="primary">
                         <i class="fa-solid fa-percent"></i> Add 12% VAT
                     </button>
