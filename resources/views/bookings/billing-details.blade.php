@@ -109,6 +109,15 @@
     </tr>
     @endif
 
+    @if($booking->final_payment)
+    <tr>
+        <td><b>Less: Final Payment</b> <i>(Mode of payment: {{ $booking->final_pmt_mode }})</i></td>
+        <td style="text-align: right">
+            ({{ number_format($booking->final_payment,2) }})
+        </td>
+    </tr>
+    @endif
+
     <tr>
         <td><b style="font-size: 1.4em">TOTAL DUE</b></td>
         <td style="text-align: right;">

@@ -181,16 +181,6 @@
                 </td>
             </tr>
 
-            <tr class="text-2xl">
-                <th class="bg-green-900 text-green-200">TOTAL DUE</th>
-                <td class="bg-white">
-                    <div class='font-bold'>
-                        <i class="fa-solid fa-peso-sign"></i>
-                        {{number_format( $booking->total_payout,2)}}
-                    </div>
-                </td>
-            </tr>
-
             @if($booking->isCheckedOut)
 
             <tr class="text-2xl">
@@ -204,6 +194,17 @@
             </tr>
 
             @endif
+
+            <tr class="text-2xl">
+                <th class="bg-green-900 text-green-200">TOTAL DUE</th>
+                <td class="bg-white">
+                    <div class='font-bold'>
+                        <i class="fa-solid fa-peso-sign"></i>
+                        {{number_format( $booking->total_payout,2)}}
+                    </div>
+                </td>
+            </tr>
+
 
         </table>
 

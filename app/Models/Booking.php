@@ -94,7 +94,7 @@ class Booking extends Model
     }
 
     public function getTotalPayoutAttribute() {
-        return ($this->room_rent + $this->addonTotal + $this->surcharge + $this->vat) - ($this->down_payment + $this->discount_amount);
+        return ($this->room_rent + $this->addonTotal + $this->surcharge + $this->vat) - ($this->down_payment + $this->discount_amount + $this->final_payment);
     }
 
     public function getTotalBeforeVatAttribute() {
