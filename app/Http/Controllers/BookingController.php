@@ -123,7 +123,9 @@ class BookingController extends Controller
             'user_id'=>auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $booking->id,
-            'description'=>'Created booking'
+            'description'=>'Created booking of ' . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('bookings/' . $booking->id)->with('Info','New booking created.');
@@ -158,7 +160,9 @@ class BookingController extends Controller
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $bookingAddon->booking_id,
-            'description' => "Addon added ($addon->name amounting to $bookingAddon->amount)"
+            'description' => "Addon added ($addon->name amounting to $bookingAddon->amount) to booking of " . $booking->guest->full_name . " dated "
+                . $booking->check_in->format('M d, Y') . " to "
+                . $booking->check_out->format('M d, Y')
         ]);
 
         return redirect('/bookings/' . $booking->id)->with('Info','An add-on has been added to this booking.');
