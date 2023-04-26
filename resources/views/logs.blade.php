@@ -47,9 +47,6 @@
             @endforeach
         </tbody>
     </table>
-    @if ($logs->)
-
-    @endif
 </div>
 
 @endsection

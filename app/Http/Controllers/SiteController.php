@@ -96,7 +96,7 @@ class SiteController extends Controller
 
         return view('logs',[
             'users' => User::orderBy('full_name')->pluck('full_name','id'),
-            'logs'=>$logs->limit(50)->get(),
+            'logs'=>$logs->limit(100)->get(),
             'request' => $request
         ]);
     }
