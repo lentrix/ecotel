@@ -12,3 +12,4 @@ BILLING:
 ✓  Upon check out, there is no place to record the payment on the remaining balance. The recording should be the same with the downpayment.
 ✓  Add on items are becoming too many. Can the billing part be more flexible? Can we just add additional items in the bill without including them sa add ons? Example extra charges like broken drinking glass, special washing charge for dirty linens, printing and photocopying charges, etc.? (Open-ended addons)
 ✓  Please allow VAT charging to rooms only, excluding add ons.
+Made a little change.
