@@ -1,7 +1,7 @@
 ---
 deployment:
   tasks:
-    - export DEPLOYPATH=./ecotel.lentrix-dev.com/ecotel
+    - export DEPLOYPATH=/home/lentrixd/ecotel.lentrix-dev.com/ecotel
     - /bin/cp -R app $DEPLOYPATH
     - /bin/cp -R config $DEPLOYPATH
     - /bin/cp -R database $DEPLOYPATH
