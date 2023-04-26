@@ -11,7 +11,7 @@
 
         <div class="flex-1">
             {!! Form::label("user_id", "User", ["class"=>'text-white']) !!}
-            {!! Form::select("user_id", $users, $request->user_id, ['class'=>'w-full bg-white p-2 rounded mb-4','placeholder'=>'Filter user']) !!}
+            {!! Form::select("user_id", $users, $request->user_id, ['class'=>'w-full bg-white p-2 rounded mb-4 min-h-[44px] border-green-500 border','placeholder'=>'Filter user']) !!}
         </div>
         <div class="flex-1">
             {!! Form::label("date_from", "From", ["class"=>'text-white']) !!}
@@ -47,6 +47,9 @@
             @endforeach
         </tbody>
     </table>
+    @if ($logs->)
+
+    @endif
 </div>
 
 @endsection
