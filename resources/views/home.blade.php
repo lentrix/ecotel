@@ -52,5 +52,9 @@
 
 </div>
 
+<div class="flex p-8 w-full justify-center items-center text-gray-400">
+    Revised April 26, 2023.
+</div>
+
 
 @endsection
