@@ -56,7 +56,7 @@
             <ul style="padding-right: 80px; list-style: none; margin:0">
                 @foreach($booking->bookingAddons as $bka)
                 <li style="text-align: right;">
-                    {{ number_format($bka->amount*$bka->qty,2) }}
+                    {{ number_format($bka->amount,2) }}
                 </li>
                 @endforeach
             </ul>

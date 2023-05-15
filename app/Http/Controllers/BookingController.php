@@ -156,6 +156,7 @@ class BookingController extends Controller
             'added_by' => auth()->user()->id
         ]);
 
+
         Log::create([
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
