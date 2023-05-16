@@ -152,16 +152,17 @@ class BookingController extends Controller
             'booking_id' => $booking->id,
             'addon_id' => $addon->id,
             'qty' => $request->qty,
-            'amount' => $request->qty * $addon->amount,
+            'amount' => $addon->amount,
             'added_by' => auth()->user()->id
         ]);
 
+        $tot = $request->qty*$addon->amount;
 
         Log::create([
             'user_id' => auth()->user()->id,
             'table' => 'bookings',
             'ref_no' => $bookingAddon->booking_id,
-            'description' => "Addon added ($addon->name amounting to $bookingAddon->amount) to booking of " . $booking->guest->full_name . " dated "
+            'description' => "Addon added ($addon->name amounting to $tot) to booking of " . $booking->guest->full_name . " dated "
                 . $booking->check_in->format('M d, Y') . " to "
                 . $booking->check_out->format('M d, Y')
         ]);
@@ -209,13 +210,14 @@ class BookingController extends Controller
     }
 
     public function removeAddonItem(Booking $booking, Request $request) {
-        $bookingAddon = BookingAddon::where('booking_id', $booking->id)
-            ->where('addon_id', $request->addon_id)->first();
 
-        $addStr = $bookingAddon->qty . " " . $bookingAddon->addon->name . " amounting to " . $bookingAddon->amount;
 
-        BookingAddon::where('booking_id', $booking->id)
-            ->where('addon_id', $request->addon_id)->delete();
+        $bka = BookingAddon::find($request->booking_addon_id);
+        $addStr = $bka->qty . " " . $bka->addon->name . " amounting to " . $bka->total;
+
+        if(!$bka) return back()->with('Error','Something went wrong. The booking addon ID cannot be found.');
+
+        $bka->delete();
 
         Log::create([
             'user_id' => auth()->user()->id,

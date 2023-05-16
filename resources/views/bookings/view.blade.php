@@ -311,11 +311,11 @@
                 @foreach($booking->bookingAddons as $bka)
                     <tr>
                         <td>{{$bka->addon->name=="Others" ? $bka->remarks : $bka->addon->name}}</td>
-                        <td class="text-center">{{ $bka->addon->name=="Others" ? $bka->qty : $bka->qty . "@" . $bka->addon->amount}}</td>
-                        <td class="text-end">{{number_format($bka->amount,2)}}</td>
+                        <td class="text-center">{{ $bka->addon->name=="Others" ? $bka->qty : $bka->qty . "@" . $bka->amount}}</td>
+                        <td class="text-end">{{number_format($bka->total,2)}}</td>
                         <td class="text-center">
                             {!! Form::open(['url'=>'/bookings/add-on/' . $booking->id,'method'=>'delete']) !!}
-                                <input type="hidden" name="addon_id" value="{{$bka->addon_id}}">
+                                <input type="hidden" name="booking_addon_id" value="{{$bka->id}}">
                                 <button type="submit" class="text-red-500" title="Remove this addon item">
                                     <i class="fa fa-trash"></i>
                                 </button>

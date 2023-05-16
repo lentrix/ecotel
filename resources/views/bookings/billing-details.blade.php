@@ -45,7 +45,7 @@
             <ul style="margin:0">
                 @foreach($booking->bookingAddons as $bka)
                 <li>
-                    {{ $bka->addon->name=="Others" ? $bka->remarks : $bka->addon->name }} {{ $bka->addon->name=="Others" ? $bka->qty : $bka->qty . "@" . $bka->addon->amount}}
+                    {{ $bka->addon->name=="Others" ? $bka->remarks : $bka->addon->name }} {{ $bka->addon->name=="Others" ? $bka->qty : $bka->qty . "@" . $bka->amount}}
                 </li>
                 @endforeach
             </ul>
@@ -56,7 +56,7 @@
             <ul style="padding-right: 80px; list-style: none; margin:0">
                 @foreach($booking->bookingAddons as $bka)
                 <li style="text-align: right;">
-                    {{ number_format($bka->amount,2) }}
+                    {{ number_format($bka->total,2) }}
                 </li>
                 @endforeach
             </ul>

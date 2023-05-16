@@ -22,4 +22,8 @@ class BookingAddon extends Model
     public function addedBy() {
         return $this->belongsTo('App\Models\User');
     }
+
+    public function getTotalAttribute() {
+        return $this->qty*$this->amount;
+    }
 }

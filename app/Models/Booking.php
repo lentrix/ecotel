@@ -61,7 +61,7 @@ class Booking extends Model
     }
 
     public function getAddonTotalAttribute() {
-        return $this->bookingAddons->sum('amount');
+        return $this->bookingAddons->sum('total');
     }
 
     public function getGrossTotalAttribute() {
