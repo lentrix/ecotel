@@ -14,7 +14,7 @@
             {!! Form::open(['url'=>'/bookings/checkout/' . $booking->id, 'method'=>'post']) !!}
 
                 {!! Form::label("final_payment") !!}
-                {!! Form::number("final_payment", null, ['class'=>"w-full mb-4",'required']) !!}
+                {!! Form::number("final_payment", null, ['class'=>"w-full mb-4",'required','step'=>'.01']) !!}
 
                 {!! Form::label("final_pmt_mode") !!}
                 {!! Form::select("final_pmt_mode",config('ecotel.payment_modes'),null,

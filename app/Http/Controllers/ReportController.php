@@ -43,11 +43,10 @@ class ReportController extends Controller
         if($request->addon_type=="Room") {
 
             $now = Carbon::parse($request->date);
-            $now->addMinutes(721);
+            $now->addMinutes(720);
 
-            $data = Booking::where('check_in','<=',$now)
-                    ->where('check_out','>',$now)
-                    ->where('status','like','Confirmed%')
+            $data = Booking::where('check_out','=',$now)
+                    ->where('status','like','Checked%')
                     ->join('rooms','room_id','rooms.id')
                     ->select(DB::raw('rooms.name AS "name", "1" AS "qty_sum", bookings.room_rate AS "amount_sum"'))
                     ->get();
@@ -58,7 +57,8 @@ class ReportController extends Controller
                 ->whereHas('addon', function($q1) use ($request){
                     $q1->where('addon_type', $request->addon_type);
                 })->whereHas('booking', function($q2){
-                    $q2->where('status','like','Confirmed%');
+                    $q2->where('status','like','Confirmed%')
+                        ->orWhere('status','like','Checked%');
                 })
                 ->join('addons','addon_id','addons.id')
                 ->groupBy('addons.name')

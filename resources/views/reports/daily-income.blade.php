@@ -33,9 +33,9 @@
             <tr>
                 <td>{{$item->name}}</td>
                 <td style="text-align:center">{{$item->qty_sum}}</td>
-                <td style="text-align:right">{{number_format($item->amount_sum,2)}}</td>
+                <td style="text-align:right">{{number_format(($item->amount_sum*$item->qty_sum),2)}}</td>
             </tr>
-            <?php $total += $item->amount_sum; $qty += $item->qty_sum; ?>
+            <?php $total += $item->amount_sum*$item->qty_sum; $qty += $item->qty_sum; ?>
         @endforeach
 
         <tr>

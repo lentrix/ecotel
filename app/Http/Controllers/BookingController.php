@@ -528,7 +528,7 @@ class BookingController extends Controller
             'check_out' => $request->check_out,
             'source' => $request->source,
             'purpose' => $request->purpose,
-            'room_rate' => $room->rate
+            'room_rate' => ($request->source=="Via Agoda" || $request->source=="Via Booking.com") ? 0 : $room->rate
         ]);
 
         Log::create([
