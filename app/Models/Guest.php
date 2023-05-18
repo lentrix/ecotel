@@ -20,7 +20,7 @@ class Guest extends Model
     }
 
     public function getFullNameAttribute() {
-        return $this->first_name . " " . substr($this->middle_name, 0,1) . ". " . $this->last_name;
+        return $this->first_name . " " . ($this->middle_name=="-" ? "" : substr($this->middle_name, 0,1). ". ") . $this->last_name;
     }
 
     public function getNoBookingAttribute() {
