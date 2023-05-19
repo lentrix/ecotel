@@ -16,7 +16,7 @@ class Booking extends Model
     ];
 
     protected $fillable = ['check_in','check_out','source','room_id','room_rate','added_by','with_breakfast',
-            'purpose','status','final_payment','final_pmt_mode','checkout_at'];
+            'purpose','status','final_payment','final_pmt_mode','checkout_at','online_booking_id'];
 
     public function getGuestAttribute() {
         $bookingGuest = BookingGuest::where('booking_id', $this->id)

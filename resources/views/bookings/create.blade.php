@@ -30,6 +30,11 @@
             {!! Form::select("source", config('ecotel.booking_source'), null,
                     ['class'=>'w-full mb-4 bg-white p-2 rounded','required']) !!}
 
+            <div id="booking_id_block" class="hidden">
+                {!! Form::label("online_booking_id", "Booking ID") !!}
+                {!! Form::text("online_booking_id", null, ['class'=>'w-full mb-4']) !!}
+            </div>
+
             {!! Form::label("purpose", "Purpose of undertaking") !!}
             {!! Form::select("purpose", [
                 'Leisure/Vacation' => 'Leisure/Vacation',
@@ -65,6 +70,16 @@ $(document).ready(()=>{
             $("#others-field").focus()
         }else {
             $("#others-field").addClass('hidden')
+        }
+    })
+
+    $("#source").change((ev)=>{
+        let val = $(ev.target).find(":selected").val();
+        if(val == "Via Agoda" || val=="Via Booking.com") {
+            $("#booking_id_block").removeClass('hidden')
+            $("#online_booking_id").focus()
+        }else {
+            $("#booking_id_block").addClass('hidden')
         }
     })
 })

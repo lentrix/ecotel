@@ -21,6 +21,9 @@
         <div><strong>Check In:</strong> {{$check_in->format('F d, Y')}}</div>
         <div><strong>Check Out:</strong> {{$check_out->format('F d, Y')}}</div>
         <div><strong>Booking Source:</strong> {{$source}}</div>
+        @if($online_booking_id)
+            <div><strong>Booking ID:</strong> {{$online_booking_id}}</div>
+        @endif
         <div><strong>Purpose of undertaking:</strong> {{$purpose}}</div>
         <div><strong>With breakfast:</strong> {{$with_breakfast}}</div>
 

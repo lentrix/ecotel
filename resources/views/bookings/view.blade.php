@@ -72,7 +72,12 @@
             </tr>
             <tr>
                 <th class="bg-green-900 text-green-200">Booking Source</th>
-                <td class="bg-white">{{$booking->source}}</td>
+                <td class="bg-white">
+                    {{$booking->source}}
+                    @if($booking->online_booking_id)
+                        <br>Booking ID: {{$booking->online_booking_id}}
+                    @endif
+                </td>
             </tr>
             <tr>
                 <th class="bg-green-900 text-green-200">Room</th>

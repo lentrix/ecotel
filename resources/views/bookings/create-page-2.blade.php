@@ -6,6 +6,7 @@
     <input type="hidden" name="check_in" id="check_in" value="{{$check_in}}">
     <input type="hidden" name="check_out" id="check_out" value="{{$check_out}}">
     <input type="hidden" name="source" id="source" value="{{$source}}">
+    <input type="hidden" name="online_booking_id" id="online_booking_id" value="{{$online_booking_id}}">
     <input type="hidden" name="purpose" id="purpose" value="{{$purpose}}">
     <input type="hidden" name="with_breakfast" id="with_breakfast" value="{{$with_breakfast}}">
 
@@ -31,6 +32,9 @@
         <div><strong>Check In:</strong> {{$check_in->format('F d, Y')}}</div>
         <div><strong>Check Out:</strong> {{$check_out->format('F d, Y')}}</div>
         <div><strong>Booking Source:</strong> {{$source}}</div>
+        @if($online_booking_id)
+            <div><strong>Booking ID:</strong> {{$online_booking_id}}</div>
+        @endif
         <div><strong>Purpose of underdating:</strong> {{$purpose}}</div>
         <div><strong>With breakfast:</strong> {{$with_breakfast}}</div>
     </div>

@@ -21,7 +21,7 @@ class SiteController extends Controller
 
         $rooms = Room::count();
         $current = Booking::currentBookings()->count();
-        $occupancy = number_format(($current/$rooms)*100) . "%";
+        $occupancy = $rooms ? number_format(($current/$rooms)*100) . "%" : "0%";
 
         $checkInToday = Booking::whereDate('check_in', date('Y-m-d'))->count();
         $checkOutToday = Booking::whereDate('check_out', date('Y-m-d'))->count();

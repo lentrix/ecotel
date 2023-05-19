@@ -66,6 +66,7 @@ class BookingController extends Controller
             'check_in' => $checkIn,
             'check_out' => $checkOut,
             'source' => $request->source,
+            'online_booking_id'=>$request->online_booking_id,
             'with_breakfast' => $with_breakfast,
             'purpose' => $purpose,
             'rooms' => $rooms->get()
@@ -78,6 +79,7 @@ class BookingController extends Controller
             'check_out' => new Carbon($request->check_out),
             'room' => Room::findOrFail($request->room_id),
             'source' => $request->source,
+            'online_booking_id'=>$request->online_booking_id,
             'purpose' => $request->purpose,
             'with_breakfast' => $request->with_breakfast,
             'guest' => $guest
@@ -107,6 +109,7 @@ class BookingController extends Controller
             'check_in' => $request->check_in,
             'check_out' => $request->check_out,
             'source' => $request->source,
+            'online_booking_id' => $request->online_booking_id,
             'room_rate' => $roomRate,
             'with_breakfast' => $request->with_breakfast,
             'purpose' => $request->purpose,
@@ -527,6 +530,7 @@ class BookingController extends Controller
             'check_in' => $request->check_in,
             'check_out' => $request->check_out,
             'source' => $request->source,
+            'online_booking_id'=>$request->online_booking_id,
             'purpose' => $request->purpose,
             'room_rate' => ($request->source=="Via Agoda" || $request->source=="Via Booking.com") ? 0 : $room->rate
         ]);

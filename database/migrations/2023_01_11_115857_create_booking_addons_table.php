@@ -14,6 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('booking_addons', function (Blueprint $table) {
+            $table->id();
             $table->bigInteger('booking_id')->unsigned();
             $table->bigInteger('addon_id')->unsigned();
             $table->integer('qty')->unsigned()->default(1);
@@ -24,7 +25,6 @@ return new class extends Migration
             $table->foreign('added_by')->references('id')->on('users');
             $table->foreign('booking_id')->references('id')->on('bookings');
             $table->foreign('addon_id')->references('id')->on('addons');
-            $table->primary(['booking_id','addon_id']);
         });
     }
 

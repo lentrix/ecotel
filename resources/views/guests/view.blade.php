@@ -32,7 +32,7 @@
                 <th class="bg-green-800 text-green-100 text-md">Name</th>
                 <td>
                     {{$guest->first_name}}
-                    {{$guest->middle_name}}
+                    {{$guest->middle_name=="-" ? "" : $guest->middle_name}}
                     {{$guest->last_name}}
                 </td>
             </tr>
