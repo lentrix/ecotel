@@ -8,12 +8,27 @@
             <i class="fa fa-close"></i>
         </button>
 
-        <h2 class="text-2xl text-green-900 pb-2 border-b border-green-900">Add Addon Item</h2>
+        <div class="flex justify-between align-center">
+            <h2 class="text-2xl text-green-900 pb-2 border-b border-green-900">Add Addon Item</h2>
+            <form class="flex" id="filter_addon_form">
+                <input type="text" id="filter_text" />
+                <button class="bg-gray-200 border border-gray-400 rounded-sm px-2 h-[40px]">
+                    <i class="fa fa-search"></i>
+                </button>
+            </form>
+            <div>&nbsp;</div>
+        </div>
 
         <div class="overflow-auto max-h-[70vh] border">
-            <div class="grid grid-cols-3 gap-5 mt-4">
+            {!! Form::open(['url'=>'/bookings/add-on/' . $booking->id,'method'=>'post','id'=>'submit_addon_form']) !!}
+                    <input type="hidden" id="addon_id" name="addon_id" />
+                    <input type="hidden" name="qty" id="addon_qty" value="1" min="1">
+            {!! Form::close() !!}
+            <div class="grid grid-cols-3 gap-5 mt-4" id="addons_result">
 
-                @foreach($addons as $addon)
+
+
+                {{-- @foreach($addons as $addon)
                     <div class="bg-white border border-green-500 p-2 rounded-md shadow flex flex-col">
                         <h2 class="text-xl">{{$addon->name}}</h2>
                         <div class="italic">{{$addon->description}}</div>
@@ -35,7 +50,9 @@
                             </div>
                         </div>
                     </div>
-                @endforeach
+                @endforeach --}}
+
+
 
             </div>
         </div>

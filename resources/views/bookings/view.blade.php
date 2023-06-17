@@ -446,6 +446,73 @@ $(document).ready(()=>{
         $("#form_guest_id").val(el.data('guest_id'))
         $("#add-guest-form").trigger('submit')
     })
+
+    $("#filter_addon_form").submit((e)=>{
+        e.preventDefault()
+        const input = {
+            "filter": $("#filter_text").val()
+        }
+        $.post("{{url('/api/addon-items')}}", input, (data, status) => {
+            if(status=="success") {
+                const el = $("#addons_result")
+                el.empty()
+                if(data.message=="ok") {
+                    data.data.forEach((addon)=>{
+                        const div1 = $(document.createElement('div'))
+                        div1.addClass('bg-white border border-green-500 p-2 rounded-md shadow flex flex-col')
+
+                        const h2 = $(document.createElement('h2'))
+                        h2.addClass('text-xl')
+                        h2.text(addon.name)
+
+                        const div2 = $(document.createElement('div'))
+                        div2.addClass('italic')
+                        div2.text(addon.description)
+
+                        const div3 = $(document.createElement('div'))
+                        div3.addClass('flex-1 flex flex-col justify-end')
+
+                        const div4 = $(document.createElement('div'))
+                        div4.addClass('flex justify-between')
+
+                        const h4 = $(document.createElement('h4'))
+                        h4.addClass('text-xl font-bold')
+                        h4.html('<i class="fa-solid fa-peso-sign"></i> ' + addon.amount)
+
+                        const div5 = $(document.createElement('div'))
+                        div5.append('<input type="number" value="1" min="1" class="w-[70px] p-0 text-center" id="qty_' + addon.id + '" />')
+                        div5.append('<button class="primary select-addon-button" type="button" data-addon-id="' + addon.id +'"><i class="fa fa-plus" data-addon-id="' + addon.id + '"></i> Add </button>')
+
+                        div4.append(h4)
+                        div4.append(div5)
+
+                        div3.append(div4)
+                        div3.append(h4)
+                        div3.append(div5)
+
+                        div1.append(h2)
+                        div1.append(div2)
+                        div1.append(div3)
+
+                        el.append(div1)
+                    })
+                }else {
+                    alert('Not ok')
+                }
+            }
+        })
+    })
+
+    $('body').on('click','.select-addon-button', (e)=>{
+        const btn = $(e.target)
+        const id = btn.data('addon-id')
+        const qtyEl = $("#qty_" + id)
+
+        $("#addon_id").val(id)
+        $("#addon_qty").val(qtyEl.val())
+
+        $("#submit_addon_form").trigger('submit')
+    })
 })
 
 </script>

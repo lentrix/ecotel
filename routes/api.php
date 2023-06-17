@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Addon;
 use App\Models\Guest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -41,4 +42,18 @@ Route::post('/search-guest', function(Request $request) {
         ]);
     }
 
+});
+
+Route::post('/addon-items', function(Request $request) {
+    $addons = Addon::orderBy('name');
+
+    if($request->filter) {
+        $addons->where('name','like',"%$request->filter%")
+            ->orWhere('description','like',"$request->filter");
+    }
+
+    return response()->json([
+        'message' => 'ok',
+        'data' => $addons->get()
+    ]);
 });
